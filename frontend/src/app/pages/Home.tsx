@@ -590,9 +590,9 @@ useEffect(() => {
           </motion.div>
         </div>
       </section>
-      <Link
-  to="/contact" // 👈 change if your enquiry page route is different
-  className="fixed bottom-15 right-18 z-50 bg-orange-500 hover:bg-orange-600 text-white w-18 h-18 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110"
+ <Link
+  to="/contact"
+  className="fixed bottom-12 right-12 md:bottom-16 md:right-16 z-50 bg-orange-500 hover:bg-orange-600 text-white w-14 h-14 text-xl rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110"
 >
   📩
 </Link>
