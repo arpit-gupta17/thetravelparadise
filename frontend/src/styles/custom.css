@@ -1,0 +1,146 @@
+/* Custom brand colors for The Travel Paradise */
+:root {
+  /* Brand Colors */
+  --brand-orange-red: #f06030;
+  --brand-warm-amber: #e0a020;
+  --brand-bright-cyan: #00d0e0;
+  --brand-deep-cyan: #0099bb;
+  --brand-whatsapp-green: #25D366;
+  --brand-whatsapp-dark: #128c7e;
+  
+  /* Backgrounds */
+  --page-bg: #fdf8f4;
+  --card-border: #fde8dc;
+  --warm-section-bg: #fff8f4;
+  --light-blue-bg: #f0fbff;
+  
+  /* Text Colors */
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  
+  /* Typography */
+  --font-playfair: 'Playfair Display', serif;
+  --font-nunito: 'Nunito', sans-serif;
+}
+
+body {
+  font-family: var(--font-nunito);
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+}
+
+/* Custom gradient for hero headline */
+.gradient-text {
+  background: linear-gradient(90deg, var(--brand-warm-amber) 0%, var(--brand-orange-red) 40%, var(--brand-bright-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Primary gradient for buttons */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--brand-orange-red) 0%, var(--brand-warm-amber) 100%);
+}
+
+/* Radial gradient utility */
+.bg-gradient-radial {
+  background: radial-gradient(circle, currentColor 0%, transparent 70%);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(224, 160, 32, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(224, 160, 32, 0.8);
+  }
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes orb-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 20px) scale(0.9);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+.animate-orb {
+  animation: orb-float 20s ease-in-out infinite;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 3D Card Effect */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-3d:hover {
+  transform: translateY(-8px) rotateX(5deg);
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for video container */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
