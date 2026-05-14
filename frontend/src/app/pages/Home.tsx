@@ -158,7 +158,7 @@ useEffect(() => {
   return (
     <div className="w-full">
       {/* Hero Section with YouTube Video Background */}
-      <section className="relative w-full h-[90vh] md:h-[90vh] overflow-hidden bg-[var(--text-primary)]">
+      <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
         {/* Video Background or Fallback */}
         {!videoError ? (
           <div className="absolute inset-0 w-full h-full">
@@ -194,7 +194,7 @@ useEffect(() => {
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-            className="w-[130px] h-[130px] rounded-full bg-gradient-to-br from-[var(--brand-warm-amber)] to-[var(--brand-orange-red)] flex items-center justify-center mb-6 shadow-[0_0_60px_rgba(224,160,32,0.6)] animate-pulse-glow"
+            className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] md:w-[130px] md:h-[130px] rounded-full bg-gradient-to-br from-[var(--brand-warm-amber)] to-[var(--brand-orange-red)] flex items-center justify-center mb-6 shadow-[0_0_60px_rgba(224,160,32,0.6)] animate-pulse-glow"
           >
           <img
   src={logoImage}
@@ -207,7 +207,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 mb-6"
+            className="flex flex-wrap items-center justify-center gap-2 bg-white/10 backdrop-blur-md rounded-2xl px-4 py-3 mb-6 max-w-[90%]"
           >
             <div className="w-2 h-2 rounded-full bg-[var(--brand-bright-cyan)] animate-pulse" />
             <span className="font-[var(--font-nunito)] text-[12px] text-white/90">
@@ -219,7 +219,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="font-[var(--font-playfair)] font-[900] text-[42px] md:text-[62px] leading-[1.1] mb-4 max-w-4xl"
+            className="font-[var(--font-playfair)] font-[900] text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight mb-4 max-w-4xl px-2"
           >
             <span className="text-white">Your Journey</span>
             <br />
@@ -230,7 +230,7 @@ useEffect(() => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="font-[var(--font-nunito)] text-[16px] text-white/80 mb-6 max-w-2xl"
+            className="font-[var(--font-nunito)] text-sm sm:text-base md:text-lg text-white/80 mb-6 max-w-2xl px-4 leading-relaxed"
           >
            The Travel Paradise is known for personalized and hassle-free travel experiences. 
            <br></br> We turn every trip into a smooth and memorable journey.
@@ -241,7 +241,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.6 }}
-            className="flex items-center gap-3 mb-8"
+            className="flex flex-wrap justify-center gap-3 mb-8 px-4"
           >
             <a
               href="https://instagram.com/the_travelparadise_"
@@ -277,7 +277,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center gap-4 mb-8"
+            className="flex flex-col sm:flex-row items-center w-full sm:w-auto gap-4 mb-8 px-4"
           >
             <Link
               to="/packages"
@@ -301,7 +301,7 @@ useEffect(() => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.6 }}
-            className="glass rounded-2xl px-8 py-4 flex flex-wrap items-center justify-center gap-8"
+            className="glass rounded-2xl px-4 sm:px-8 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 w-[95%] max-w-4xl"
           >
             {[
               { label: 'Travelers', value: '1K+' },
