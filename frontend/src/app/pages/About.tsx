@@ -24,7 +24,7 @@ export function About() {
   }, []);
 
   const stats = [
-    { value: '1K+', label: 'Happy Travelers', icon: '😊' },
+    { value: '1.5K+', label: 'Happy Travelers', icon: '😊' },
     { value: packages.length.toString(), label: 'Travel Packages', icon: '🎒' },
     {
       value: Array.from(new Set(packages.map(p => p.destination))).length.toString(),
@@ -96,7 +96,7 @@ export function About() {
                   we bring you closer to the world's most enchanting destinations.
                 </p>
                 <p>
-                  With over <strong className="text-[var(--brand-orange-red)]">1K+ happy travelers</strong> and counting, 
+                  With over <strong className="text-[var(--brand-orange-red)]">1.5K+ happy travelers</strong> and counting, 
                   we've built our reputation on trust, quality service, and personalized attention. Every package is designed 
                   with care, ensuring you experience the best of each destination while enjoying comfort, safety, and value.
                 </p>
@@ -216,7 +216,7 @@ export function About() {
               </a>
               <div className="flex items-center gap-3">
                 <a
-                  href="https://instagram.com/the_travelparadise_"
+                  href="https://instagram.com/thetravelparadise.co"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#E1306C] text-white flex items-center justify-center transition-all transform hover:scale-110"
@@ -225,7 +225,7 @@ export function About() {
                   <Instagram className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://linkedin.com/in/travel-paradise-475a41360"
+                  href="https://linkedin.com/in/the-travel-paradise-475a41360"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#0077B5] text-white flex items-center justify-center transition-all transform hover:scale-110"

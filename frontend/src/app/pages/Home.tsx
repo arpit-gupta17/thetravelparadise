@@ -58,7 +58,7 @@ const reviewImages: any = {
   const whyChooseUs = [
     {
       title: 'Safe & Trusted',
-      description: 'Verified travel experts with 1K+ happy travelers',
+      description: 'Verified travel experts with 1.5K+ happy travelers',
       bg: 'bg-[#fff8f4]',
       icon: '🛡️'
     },
@@ -230,10 +230,10 @@ useEffect(() => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="font-[var(--font-nunito)] text-sm sm:text-base md:text-lg text-white/80 mb-6 max-w-2xl px-4 leading-relaxed"
+            className="font-[var(--font-nunito)] text-sm sm:text-base md:text-lg text-white/80 mb-6 max-w-4xl px-4 leading-relaxed"
           >
            The Travel Paradise is known for personalized and hassle-free travel experiences. 
-           <br></br> We turn every trip into a smooth and memorable journey.
+           <br></br><br></br> We turn every trip into a smooth and memorable journey.
           </motion.p>
 
           {/* Social Chips */}
@@ -244,7 +244,7 @@ useEffect(() => {
             className="flex flex-wrap justify-center gap-3 mb-8 px-4"
           >
             <a
-              href="https://instagram.com/the_travelparadise_"
+              href="https://instagram.com/thetravelparadise.co"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#E1306C] text-white transition-all transform hover:scale-110 flex items-center gap-2"
@@ -253,7 +253,7 @@ useEffect(() => {
               <span className="font-[var(--font-nunito)] text-[13px] font-[600]">Instagram</span>
             </a>
             <a
-              href="https://linkedin.com/in/travel-paradise-475a41360"
+              href="https://linkedin.com/in/the-travel-paradise-475a41360"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#0077B5] text-white transition-all transform hover:scale-110 flex items-center gap-2"
@@ -304,7 +304,7 @@ useEffect(() => {
             className="glass rounded-2xl px-4 sm:px-8 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 w-[95%] max-w-4xl"
           >
             {[
-              { label: 'Travelers', value: '1K+' },
+              { label: 'Travelers', value: '1.5K+' },
               { label: 'Packages', value: packages.length },
               { label: 'Destinations', value: destinationInfo.length },
               { label: 'Support', value: '24/7' },
@@ -320,18 +320,7 @@ useEffect(() => {
             ))}
           </motion.div>
 
-          {/* Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.6 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          >
-            <span className="font-[var(--font-nunito)] text-[12px] text-white/70">
-              Scroll to Explore
-            </span>
-            <ChevronDown className="w-6 h-6 text-white/70 animate-bounce-slow" />
-          </motion.div>
+       
         </div>
       </section>
 
@@ -406,7 +395,7 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {featuredPackages.map((pkg, index) => (
               <motion.div
                 key={pkg.id}
@@ -417,25 +406,38 @@ useEffect(() => {
               >
                 <Link
                   to={`/packages/${pkg.id}`}
-                  className="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all card-3d"
+                  className="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
                 >
-                  <div className="relative h-[240px] overflow-hidden">
-                    <img
-                      src={pkg.coverImage}
-                      alt={pkg.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                 <div className="relative h-[240px] overflow-hidden">
+                <img
+                  src={
+  pkg.coverImage ||
+  pkg.images?.[0] ||
+  pkg.image ||
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+}
+                  alt={pkg.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
                     <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                       {pkg.category}
                     </div>
                   </div>
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col justify-between h-[320px]">
                     <h3 className="font-[var(--font-playfair)] font-[800] text-[20px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors">
                       {pkg.title}
                     </h3>
-                    <p className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] mb-4">
-                      {pkg.shortDescription}
-                    </p>
+                    <div className="flex-grow">
+                      <p className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] mb-2 line-clamp-4 leading-6">
+                        {pkg.shortDescription}
+                      </p>
+
+                      {pkg.shortDescription?.length > 120 && (
+                        <button className="text-orange-500 text-sm font-semibold hover:underline">
+                          Read More
+                        </button>
+                      )}
+                    </div>
                     <div className="flex items-center justify-between">
                       <div>
                         <span className="font-[var(--font-nunito)] text-[12px] text-[var(--text-muted)]">Starting from</span>
@@ -516,11 +518,12 @@ useEffect(() => {
     
     {reviews.map((review: any, index) => (
       <div
-        key={index}
-        className="bg-white rounded-2xl shadow-lg overflow-hidden flex"
-      >
+  key={index}
+  className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row md:h-[260px]"
+>
+      
         {/* LEFT IMAGE */}
-        <div className="w-[40%] h-[220px]">
+       <div className="w-full md:w-[42%] h-[220px] md:h-full">
           <img
             src={reviewImages[review.name]}
             alt={review.name}
@@ -529,14 +532,14 @@ useEffect(() => {
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className="w-[60%] p-6 flex flex-col justify-center">
+        <div className="w-full md:w-[60%] p-5 flex flex-col justify-between">
           
           <div className="text-yellow-400 text-lg mb-2">
             {"★".repeat(review.rating)}
             {"☆".repeat(5 - review.rating)}
           </div>
 
-          <p className="text-gray-600 text-sm leading-relaxed mb-3">
+         <p className="text-gray-600 text-sm leading-relaxed line-clamp-4 md:line-clamp-5">
             {review.comment}
           </p>
 

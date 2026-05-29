@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Package, packages as initialPackages } from '../data/packages';
+//import { Package, packages as initialPackages } from '../data/packages';
 
 interface PackageContextType {
   packages: Package[];
@@ -18,6 +18,7 @@ const PackageContext = createContext<PackageContextType | undefined>(undefined);
 export function PackageProvider({ children }: { children: ReactNode }) {
 const [packages, setPackages] = useState<Package[]>([]);
 
+/*
 
 useEffect(() => {
   const fetchPackages = async () => {
@@ -34,6 +35,23 @@ useEffect(() => {
 
   fetchPackages();
 }, []);
+*/
+useEffect(() => {
+  const fetchPackages = async () => {
+    const { data, error } = await supabase
+      .from("packages")
+      .select("*");
+
+    if (error) {
+      console.error(error);
+    } else {
+      setPackages(data || []);
+    }
+  };
+
+  fetchPackages();
+}, []);
+
 
   const addPackage = (pkg: Package) => {
     setPackages(prev => [...prev, pkg]);

@@ -165,14 +165,20 @@ export const AdminDashboard = () => {
                     className="hover:bg-gray-50 transition-colors"
                   >
                     <td className="px-6 py-4">
-                      <div className="flex items-center">
-                        <img
-                          src={pkg.coverImage}
-                          alt={pkg.title}
-                          className="w-12 h-12 rounded-lg object-cover mr-3"
-                        />
+                      <div className="flex items-center min-w-0">
+                      <img
+  src={
+    pkg.coverImage ||
+    pkg.heroImage ||
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+  }
+  alt={pkg.title}
+  className="w-12 h-12 rounded-xl object-cover mr-4 flex-shrink-0"
+/>
                         <div>
-                          <div className="font-semibold text-gray-900">{pkg.title}</div>
+                          <div className="font-semibold text-gray-900 truncate">
+  {pkg.title}
+</div>
                           <div className="text-sm text-gray-500">{pkg.id}</div>
                         </div>
                       </div>

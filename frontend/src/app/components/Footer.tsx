@@ -58,7 +58,7 @@ export function Footer() {
   ];
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/the_travelparadise_', label: 'Instagram', color: '#E1306C' },
+    { icon: Instagram, href: 'https://instagram.com/thetravelparadise.co', label: 'Instagram', color: '#E1306C' },
     { icon: Linkedin, href: 'https://www.linkedin.com/in/the-travel-paradise-475a41360', label: 'LinkedIn', color: '#0077B5' },
     { icon: XIcon, href: 'https://twitter.com/TravelPara56674', label: 'X', color: '#000000' },
     { icon: Phone, href: WHATSAPP_URL, label: 'WhatsApp', color: '#25D366' },
@@ -88,7 +88,7 @@ export function Footer() {
                 <span className="text-[var(--brand-warm-amber)] text-[16px]">☆</span>
               </div>
               <span className="text-[14px] font-[var(--font-nunito)] font-[700] text-[var(--brand-warm-amber)]">
-                4.9/5 • 1K+ Travelers
+                4.9/5 • 1.5K+ Travelers
               </span>
             </div>
             <div className="flex items-center gap-3">

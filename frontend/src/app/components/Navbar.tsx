@@ -22,7 +22,7 @@ export function Navbar() {
   const socialLinks = [
     {
       icon: Instagram,
-      href: 'https://instagram.com/the_travelparadise_',
+      href: 'https://instagram.com/thetravelparadise.co',
       label: 'Instagram'
     },
     {

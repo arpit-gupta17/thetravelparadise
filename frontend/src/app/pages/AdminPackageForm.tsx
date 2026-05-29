@@ -10,7 +10,8 @@ import { supabase } from '../../lib/supabase';
 export const AdminPackageForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { getPackageById, addPackage, updatePackage } = usePackages();
+  const { addPackage, updatePackage } = usePackages();
+  const [uploading, setUploading] = useState(false);
   const isEdit = !!id;
 
   const [formData, setFormData] = useState<Package>({
@@ -19,41 +20,52 @@ export const AdminPackageForm = () => {
     category: 'International',
     destination: '',
     duration: '',
-    nights: 0,
-    days: 0,
     coverImage: '',
     heroImage: '',
     shortDescription: '',
     highlights: [''],
     inclusions: [''],
     itinerary: [{ day: 1, title: '', description: '' }],
-    pricing: { standard: 0, deluxe: 0, premium: 0 },
+   pricing: { standard:'', deluxe:'', premium:'' },
     priceUnit: 'per person'
   });
 
   
- useEffect(() => {
+useEffect(() => {
   const init = async () => {
-    // 🔐 Check auth
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) {
-      navigate('/admin/login');
+
+    // auth check
+    const { data: authData } = await supabase.auth.getUser();
+
+    if (!authData.user) {
+      navigate("/admin/login");
       return;
     }
 
-    // ✏️ Edit mode
+    // edit mode
     if (isEdit && id) {
-      const pkg = getPackageById(id);
-      if (pkg) {
-        setFormData(pkg);
-      } else {
-        navigate('/admin/dashboard');
+
+      const { data, error } = await supabase
+        .from("packages")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      console.log("FETCHED PACKAGE:", data);
+      console.log("FETCH ERROR:", error);
+
+      if (error || !data) {
+        window.location.href = "/admin/dashboard";
+        return;
       }
+
+      setFormData(data);
     }
   };
 
   init();
-}, [id, isEdit, navigate, getPackageById]);
+
+}, [id, isEdit, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -117,6 +129,8 @@ export const AdminPackageForm = () => {
       }))
     }));
   };
+
+  /*
   const handleImageUpload = async (
   e: React.ChangeEvent<HTMLInputElement>,
   field: "coverImage" | "heroImage"
@@ -129,7 +143,11 @@ export const AdminPackageForm = () => {
   // Upload to Supabase Storage
   const { error } = await supabase.storage
     .from("packages")
-    .upload(fileName, file);
+
+    .upload(fileName, file, {
+  cacheControl: "3600",
+  upsert: true,
+});
 
   if (error) {
     console.error("Upload error:", error);
@@ -146,43 +164,187 @@ export const AdminPackageForm = () => {
     ...prev,
     [field]: data.publicUrl,
   }));
+};*/
+
+/*
+const handleImageUpload = async (
+  e: React.ChangeEvent<HTMLInputElement>,
+  field: "coverImage" | "heroImage"
+) => {
+  const file = e.target.files?.[0];
+
+  if (!file) return;
+
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${Date.now()}.${fileExt}`;
+
+  // Upload image
+  const { error } = await supabase.storage
+    .from("package-images")
+    .upload(fileName, file, {
+      cacheControl: "3600",
+      upsert: true,
+    });
+
+  if (error) {
+    console.error(error);
+    alert(error.message);
+    return;
+  }
+
+  // Get public URL
+  const { data } = supabase.storage
+    .from("package-images")
+    .getPublicUrl(fileName);
+    console.log("PUBLIC URL:", data.publicUrl);
+    
+
+  // Save URL
+  setFormData((prev) => ({
+    ...prev,
+    [field]: data.publicUrl,
+  }));
 };
+//console.log("PUBLIC URL:", data.publicUrl);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
 
-  const packageData = {
-    ...formData,
-    id: isEdit
-      ? formData.id
-      : formData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-    nights: parseInt(formData.nights.toString()),
-    days: parseInt(formData.days.toString()),
-  };
+*/
 
-  if (isEdit) {
-    updatePackage(packageData.id, packageData);
-  } else {
-    const { data, error } = await supabase
-      .from("packages")
-      .insert([packageData]);
+const handleImageUpload = async (
+  e: React.ChangeEvent<HTMLInputElement>,
+  field: "coverImage" | "heroImage"
+) => {
+  const file = e.target.files?.[0];
 
-    console.log("INSERT RESULT:", { data, error });
+  if (!file) return;
 
-    if (error) {
-      console.error("Insert error:", error);
-      alert("❌ " + error.message);
-console.error(error);
+  try {
+    setUploading(true);
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+
+    // Upload
+    const { error: uploadError } = await supabase.storage
+      .from("package-images")
+      .upload(fileName, file, {
+        cacheControl: "3600",
+        upsert: true,
+      });
+
+    if (uploadError) {
+      console.error(uploadError);
+      alert(uploadError.message);
       return;
     }
 
-    alert("✅ Package created successfully!");
+    // Public URL
+    const { data } = supabase.storage
+      .from("package-images")
+      .getPublicUrl(fileName);
+
+    const imageUrl = data.publicUrl;
+
+    console.log("UPLOADED IMAGE:", imageUrl);
+
+    // Save in separate state
+    /*
+    if (field === "coverImage") {
+      setCoverImageUrl(imageUrl);
+    } else {
+      setHeroImageUrl(imageUrl);
+    }
+*/
+    // ALSO update formData for preview
+    setFormData((prev) => ({
+      ...prev,
+      [field]: imageUrl,
+    }));
+
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setUploading(false);
   }
-
-  navigate("/admin/dashboard");
 };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-  
+  try {
+    const packageData = {
+      ...formData,
+      pricing: {
+        standard: Number(formData.pricing.standard) || 0,
+        deluxe: Number(formData.pricing.deluxe) || 0,
+        premium: Number(formData.pricing.premium) || 0,
+      },
+    };
+
+    console.log("FINAL DATA:", packageData);
+
+    console.log("URL PARAM ID:", id);
+console.log("FORM DATA ID:", formData.id);
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+console.log("CURRENT USER:", user);
+
+    // =========================
+    // UPDATE
+    // =========================
+    if (isEdit) {
+
+      const { data, error } = await supabase
+        .from("packages")
+        .update(packageData)
+        .eq("id", id)
+        .select();
+
+     console.log("UPDATE DATA:", data);
+console.log("UPDATED ROW COUNT:", data?.length);
+console.log("UPDATE ERROR:", error);
+
+      if (error) {
+        alert(error.message);
+        console.error(error);
+        return;
+      }
+
+      alert("✅ Package updated successfully!");
+
+    } else {
+
+      // CREATE
+      const newPackage = {
+        ...packageData,
+        id: formData.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-"),
+      };
+
+      const { data, error } = await supabase
+        .from("packages")
+        .insert([newPackage])
+        .select();
+
+      console.log(data, error);
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      alert("✅ Package created successfully!");
+    }
+
+    navigate("/admin/dashboard");
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Something went wrong");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -270,34 +432,6 @@ console.error(error);
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Nights *
-                  </label>
-                  <input
-                    type="number"
-                    name="nights"
-                    value={formData.nights}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Days *
-                  </label>
-                  <input
-                    type="number"
-                    name="days"
-                    value={formData.days}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
-                    required
-                  />
-                </div>
-
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Short Description *
@@ -310,56 +444,78 @@ console.error(error);
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                     required
                   />
-                </div>
+                </div><div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                        <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Cover Image *
-            </label>
+  {/* Cover Image */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      Cover Image *
+    </label>
 
-            {/* Upload from computer */}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleImageUpload(e, "coverImage")}
-              className="w-full mb-2"
-            />
+    {/* Upload from computer */}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleImageUpload(e, "coverImage")}
+      className="w-full mb-2"
+    />
 
-            {/* OR paste URL */}
-            <input
-              type="url"
-              name="coverImage"
-              value={formData.coverImage}
-              onChange={handleChange}
-              placeholder="Or paste image URL"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hero Image *
-              </label>
+    {/* OR paste URL */}
+    <input
+      type="url"
+      name="coverImage"
+      value={formData.coverImage}
+      onChange={handleChange}
+      placeholder="Or paste image URL"
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+    />
 
-              {/* Upload from computer */}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload(e, "heroImage")}
-                className="w-full mb-2"
-              />
+    {/* Preview */}
+    {formData.coverImage && (
+      <img
+        src={formData.coverImage}
+        alt="Cover Preview"
+        className="w-full h-52 object-cover rounded-lg mt-3 border"
+      />
+    )}
+  </div>
 
-              {/* OR paste URL */}
-              <input
-                type="url"
-                name="heroImage"
-                value={formData.heroImage}
-                onChange={handleChange}
-                placeholder="Or paste image URL"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-              </div>
-            </div>
+  {/* Hero Image */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      Hero Image *
+    </label>
+
+    {/* Upload from computer */}
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleImageUpload(e, "heroImage")}
+      className="w-full mb-2"
+    />
+
+    {/* OR paste URL */}
+    <input
+      type="url"
+      name="heroImage"
+      value={formData.heroImage}
+      onChange={handleChange}
+      placeholder="Or paste image URL"
+      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+    />
+
+    {/* Preview */}
+    {formData.heroImage && (
+      <img
+        src={formData.heroImage}
+        alt="Hero Preview"
+        className="w-full h-52 object-cover rounded-lg mt-3 border"
+      />
+    )}
+  </div>
+</div>
+</div>
+</div>
 
             {/* Pricing */}
             <div>
@@ -370,7 +526,9 @@ console.error(error);
                     Standard Price *
                   </label>
                   <input
-                    type="number"
+                    type="text"
+                  min="0"
+                  step="1"
                     value={formData.pricing.standard}
                     onChange={(e) => handlePricingChange('standard', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
@@ -383,7 +541,9 @@ console.error(error);
                     Deluxe Price *
                   </label>
                   <input
-                    type="number"
+                    type="text"
+  min="0"
+  step="1"
                     value={formData.pricing.deluxe}
                     onChange={(e) => handlePricingChange('deluxe', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
@@ -396,7 +556,9 @@ console.error(error);
                     Premium Price *
                   </label>
                   <input
-                    type="number"
+                    type="text"
+  min="0"
+  step="1"
                     value={formData.pricing.premium}
                     onChange={(e) => handlePricingChange('premium', e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
@@ -548,6 +710,7 @@ console.error(error);
             <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
               <button
                 type="button"
+                disabled={uploading}
                 onClick={() => navigate('/admin/dashboard')}
                 className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
@@ -555,10 +718,17 @@ console.error(error);
               </button>
               <button
                 type="submit"
+                disabled={uploading}
                 className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg hover:shadow-xl"
               >
                 <Save className="w-4 h-4" />
-                <span>{isEdit ? 'Update Package' : 'Create Package'}</span>
+                <span>
+  {uploading
+    ? "Uploading..."
+    : isEdit
+    ? "Update Package"
+    : "Create Package"}
+</span>
               </button>
             </div>
           </form>

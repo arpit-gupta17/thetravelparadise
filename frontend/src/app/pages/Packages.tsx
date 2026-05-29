@@ -156,7 +156,7 @@ const destinations = useMemo(() => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               {filteredPackages.map((pkg, index) => (
                 <motion.div
                   key={pkg.id}
@@ -166,11 +166,16 @@ const destinations = useMemo(() => {
                 >
                   <Link
                     to={`/packages/${pkg.id}`}
-                    className="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all card-3d"
+                    className="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
                   >
                     <div className="relative h-[240px] overflow-hidden">
-                      <img
-                        src={pkg.coverImage}
+                    <img
+                        src={
+                          pkg.coverImage ||
+                          pkg.images?.[0] ||
+                          pkg.image ||
+                          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+                        }
                         alt={pkg.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
@@ -182,7 +187,7 @@ const destinations = useMemo(() => {
                         {pkg.destination}
                       </div>
                     </div>
-                    <div className="p-6">
+                    <div className="p-6 flex flex-col justify-between h-[320px]">
                       <h3 className="font-[var(--font-playfair)] font-[800] text-[20px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors">
                         {pkg.title}
                       </h3>

@@ -57,8 +57,8 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/the_travelparadise_', label: 'Instagram', color: '#E1306C' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/travel-paradise-475a41360', label: 'LinkedIn', color: '#0077B5' },
+    { icon: Instagram, href: 'https://instagram.com/thetravelparadise.co', label: 'Instagram', color: '#E1306C' },
+    { icon: Linkedin, href: 'https://linkedin.com/in/the-travel-paradise-475a41360', label: 'LinkedIn', color: '#0077B5' },
     { icon: Twitter, href: 'https://twitter.com/TravelPara56674', label: 'Twitter', color: '#1DA1F2' },
   ];
 
