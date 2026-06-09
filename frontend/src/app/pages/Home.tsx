@@ -296,29 +296,7 @@ useEffect(() => {
             </a>
           </motion.div>
 
-          {/* Stats Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.6 }}
-            className="glass rounded-2xl px-4 sm:px-8 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 w-[95%] max-w-4xl"
-          >
-            {[
-              { label: 'Travelers', value: '1.5K+' },
-              { label: 'Packages', value: packages.length },
-              { label: 'Destinations', value: destinationInfo.length },
-              { label: 'Support', value: '24/7' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="font-[var(--font-nunito)] font-[900] text-[24px] text-[var(--brand-warm-amber)]">
-                  {stat.value}
-                </div>
-                <div className="font-[var(--font-nunito)] text-[13px] text-white/70">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
+       
 
        
         </div>

@@ -3,7 +3,9 @@ import { motion } from 'motion/react';
 import { getFounderInfo } from '../data/founder';
 import { Mail, Linkedin, Instagram } from 'lucide-react';
 import { XIcon } from '../components/XIcon';
-import mehulPhoto from "../../assets/images/mehul.jpeg";
+import mehulPhoto from "../../assets/images/mehul.png";
+import arpitPhoto from "../../assets/images/arpit.png";
+import rohiniPhoto from "../../assets/images/rohini.png";
 
 export function Founder() {
   const [founder, setFounder] = useState(getFounderInfo());
@@ -154,6 +156,182 @@ export function Founder() {
           </div>
         </motion.div>
 
+{/* Leadership Team */}
+<div className="mt-20">
+  <div className="text-center mb-12">
+    <h2 className="text-4xl md:text-5xl font-[var(--font-playfair)] font-[900] text-[var(--text-primary)]">
+      Leadership Team
+    </h2>
+    <p className="text-lg text-[var(--text-secondary)] mt-2">
+      Meet the professionals driving The Travel Paradise forward
+    </p>
+  </div>
+
+  <div className="grid lg:grid-cols-2 gap-8">
+<div className="bg-white rounded-3xl shadow-xl p-6">
+  <div className="grid md:grid-cols-[220px_1fr] gap-8 items-center">
+
+    <img
+      src={rohiniPhoto}
+      alt="Rohini Bharadwaj"
+      className="rounded-2xl shadow-xl w-full max-w-[220px] object-cover aspect-[3/4]"
+    />
+
+    <div>
+      <h3 className="text-2xl font-bold mb-2">
+        Rohini Bharadwaj
+      </h3>
+
+      <p className="text-[var(--brand-orange-red)] font-semibold mb-4">
+        Director of Operations & Business Development
+      </p>
+
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Rohini Bharadwaj plays a vital role in managing daily operations and driving business growth. She oversees customer experience, supplier partnerships, package development, and team coordination. With strong leadership and organizational skills, she ensures that every traveler receives seamless service and unforgettable travel experiences.
+      </p>
+
+      <div className="flex gap-5 mt-6 items-center">
+        <a
+          href="mailto:info@thetravelparadise.com"
+          className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[var(--brand-orange-red)] hover:text-white flex items-center justify-center transition-all duration-300"
+        >
+          <Mail size={20} />
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/rohini-bharadwaj-4ba905275/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[#0077B5] hover:text-white flex items-center justify-center transition-all duration-300"
+        >
+          <Linkedin size={20} />
+        </a>
+
+        <a
+          href="https://www.instagram.com/_rohini_bharadwaj_/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[#E1306C] hover:text-white flex items-center justify-center transition-all duration-300"
+        >
+          <Instagram size={20} />
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{/* Arpit */}
+<div className="bg-white rounded-3xl shadow-xl p-6">
+  <div className="grid md:grid-cols-[220px_1fr] gap-8 items-center">
+
+    <img
+      src={arpitPhoto}
+      alt="Arpit Gupta"
+      className="rounded-2xl shadow-xl w-full max-w-[220px] object-cover aspect-[3/4]"
+    />
+
+    <div>
+      <h3 className="text-2xl font-bold mb-2">
+        Arpit Gupta
+      </h3>
+
+      <p className="text-[var(--brand-orange-red)] font-semibold mb-4">
+        Website Developer & Technology Manager
+      </p>
+
+      <p className="text-sm text-gray-600 leading-relaxed">
+        Arpit is responsible for designing, developing, and maintaining The Travel Paradise website. He ensures that the platform remains fast, secure, and user-friendly while implementing new features that enhance the customer experience. His technical expertise helps create a seamless online booking and browsing experience for travelers.
+      </p>
+
+      <div className="flex gap-5 mt-6 items-center">
+        <a
+          href="mailto:arpitgupta170577@gmail.com"
+          className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[var(--brand-orange-red)] hover:text-white flex items-center justify-center transition-all duration-300"
+        >
+          <Mail size={20} />
+        </a>
+
+        <a
+          href="https://www.linkedin.com/in/arpitgupta1705/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[#0077B5] hover:text-white flex items-center justify-center transition-all duration-300"
+        >
+          <Linkedin size={20} />
+        </a>
+
+        <a
+          href="https://www.instagram.com/arpit_guptaa_/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[#E1306C] hover:text-white flex items-center justify-center transition-all duration-300"
+        >
+          <Instagram size={20} />
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+  </div>
+</div>
+
+{/* Our Team */}
+<div className="mt-20">
+  <div className="text-center mb-12">
+    <h2 className="text-4xl md:text-5xl font-[var(--font-playfair)] font-[900] text-[var(--text-primary)]">
+      Our Team
+    </h2>
+  </div>
+
+  <div className="grid md:grid-cols-3 gap-8">
+    {[
+      {
+        name: "Varsha",
+        designation: "Travel Consultant & Holiday Planner",
+        description:
+          "Varsha specializes in understanding customer requirements and designing personalized holiday packages. She assists travelers with destination recommendations, itinerary planning, and booking support. Her friendly approach and attention to detail help clients enjoy hassle-free vacations.",
+      },
+      {
+        name: "Anchal",
+        designation: "Customer Relations Executive",
+        description:
+          "Anchal is responsible for customer support and relationship management. She assists travelers before, during, and after their journeys, ensuring a smooth and enjoyable experience. Her commitment to excellent service helps build lasting relationships with clients.",
+      },
+      {
+        name: "Sonam",
+        designation: "Marketing & Social Media Executive",
+        description:
+          "Sonam manages The Travel Paradise's digital presence and brand promotion. From creating engaging social media content to showcasing exciting travel offers, she helps connect travelers with their dream destinations. Her creativity plays an important role in growing the company's online community and brand recognition.",
+      },
+    ].map((member, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+        className="bg-white rounded-3xl shadow-lg p-6"
+      >
+        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[var(--brand-bright-cyan)] to-[var(--brand-deep-cyan)] flex items-center justify-center text-white text-3xl font-bold mb-4">
+          {member.name.charAt(0)}
+        </div>
+
+        <h3 className="text-xl font-bold text-center text-[var(--text-primary)] mb-2">
+          {member.name}
+        </h3>
+
+        <p className="text-center text-[var(--brand-orange-red)] font-semibold mb-4">
+          {member.designation}
+        </p>
+
+        <p className="text-sm text-[var(--text-secondary)] text-center leading-relaxed">
+          {member.description}
+        </p>
+      </motion.div>
+    ))}
+  </div>
+</div>
         {/* Mission & Vision */}
         <div className="grid md:grid-cols-2 gap-8 mt-16">
           <motion.div
