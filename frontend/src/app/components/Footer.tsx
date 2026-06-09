@@ -54,7 +54,7 @@ export function Footer() {
     { name: 'Packages', path: '/packages' },
     { name: 'About Us', path: '/about' },
     { name: 'Contact Us', path: '/contact' },
-    { name: 'About the Founder', path: '/founder' },
+    { name: 'Meet our Team', path: '/founder' },
   ];
 
   const socialLinks = [

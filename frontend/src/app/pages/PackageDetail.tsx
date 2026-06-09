@@ -117,13 +117,31 @@ useEffect(() => {
                   {pkg.highlights.map((highlight, index) => (
                     <div
                       key={index}
-                      className="bg-[#fff8f4] rounded-xl p-4 flex items-start gap-3"
+                      className="
+bg-[#fff8f4]
+border
+border-[#f4d7a6]
+rounded-lg
+px-3
+py-2
+flex
+items-start
+gap-2
+"
                     >
                       <div className="w-6 h-6 rounded-full bg-[var(--brand-warm-amber)] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check className="w-4 h-4 text-white" />
                       </div>
-                      <p className="font-[var(--font-nunito)] text-[14px] text-[var(--text-primary)]">
-                        {highlight}
+                        <p
+                          className="
+                          font-[var(--font-nunito)]
+                          text-[13px]
+                          leading-5
+                          text-[var(--text-primary)]
+                          "
+                        >
+                          {highlight}
+      
                       </p>
                     </div>
                   ))}

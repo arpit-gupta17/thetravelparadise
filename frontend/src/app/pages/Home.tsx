@@ -7,13 +7,12 @@ import { ChevronDown, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-re
 import logoImage from "../../assets/images/logo.png";
 import { usePackages } from "../contexts/PackageContext";
 import { supabase } from '../../lib/supabase';
-
-
-
 import shivaniImg from "../../assets/reviews/shivani.jpg";
 import asmitaImg from "../../assets/reviews/asmita.jpg";
 import shreyaImg from "../../assets/reviews/shreya.jpg";
 import anshulImg from "../../assets/reviews/anshul.jpg";
+import banner1 from "../../assets/images/banner2.png";
+import banner2 from "../../assets/images/banner1.png";
 
 
 const WHATSAPP_NUMBER = '919166284373';
@@ -302,6 +301,19 @@ useEffect(() => {
         </div>
       </section>
 
+         {/* Banner 1 */}
+              <section className="w-full bg-white py-6 md:py-8">
+                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                  <div className="overflow-hidden rounded-3xl shadow-xl">
+                    <img
+                      src={banner1}
+                      alt="Travel Paradise Banner"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </section>
+
       {/* Destinations Grid */}
       <section className="py-16 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -312,6 +324,8 @@ useEffect(() => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
+         
+
             <h2 className="font-[var(--font-playfair)] font-[800] text-[36px] md:text-[44px] text-[var(--text-primary)] mb-4">
               Explore Our Destinations
             </h2>
@@ -321,7 +335,7 @@ useEffect(() => {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {destinationInfo.map((dest: any, index: number) => (
+            {destinationInfo.slice(0, 12).map((dest: any, index: number) => (
               <motion.div
                 key={dest.name}
                 initial={{ opacity: 0, y: 30 }}
@@ -447,6 +461,20 @@ useEffect(() => {
         </div>
       </section>
 
+      
+                {/* Banner 2 */}
+                <section className="w-full bg-[var(--warm-section-bg)] py-6 md:py-8">
+                  <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="overflow-hidden rounded-3xl shadow-xl">
+                      <img
+                        src={banner2}
+                        alt="Travel Paradise Banner"
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  </div>
+                </section>
+
       {/* Why Choose Us */}
       <section className="py-16 bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -457,6 +485,7 @@ useEffect(() => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
+
             <h2 className="font-[var(--font-playfair)] font-[800] text-[36px] md:text-[44px] text-[var(--text-primary)] mb-4">
               Why Choose Us
             </h2>

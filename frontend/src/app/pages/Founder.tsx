@@ -23,18 +23,19 @@ export function Founder() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)]">
+      <div className="relative h-[25vh] bg-gradient-to-r from-slate-500 via-slate-400 to-zinc-400">
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative h-full flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center text-white"
+            className="text-center text-slate-100"
           >
-            <h1 className="text-5xl md:text-6xl font-[var(--font-playfair)] font-[900] mb-4">
+            <h1 className="text-5xl md:text-6xl font-[var(--font-playfair)] font-[900] mb-4 text-amber-50">
               Meet the Visionary
             </h1>
-            <p className="text-xl font-[var(--font-nunito)] text-white/90">
+
+            <p className="text-xl font-[var(--font-nunito)] text-amber-100/80">
               Behind The Travel Paradise
             </p>
           </motion.div>
@@ -192,7 +193,7 @@ export function Founder() {
 
       <div className="flex gap-5 mt-6 items-center">
         <a
-          href="mailto:info@thetravelparadise.com"
+          href="mailto:rohini.thetravelparadise@gmail.com"
           className="w-11 h-11 rounded-full bg-gray-100 hover:bg-[var(--brand-orange-red)] hover:text-white flex items-center justify-center transition-all duration-300"
         >
           <Mail size={20} />
@@ -313,7 +314,7 @@ export function Founder() {
         transition={{ delay: index * 0.1 }}
         className="bg-white rounded-3xl shadow-lg p-6"
       >
-        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-[var(--brand-bright-cyan)] to-[var(--brand-deep-cyan)] flex items-center justify-center text-white text-3xl font-bold mb-4">
+        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-slate-700 to-black flex items-center justify-center text-white text-3xl font-bold mb-4">
           {member.name.charAt(0)}
         </div>
 
@@ -340,7 +341,7 @@ export function Founder() {
             transition={{ delay: 0.8 }}
             className="bg-white rounded-2xl p-8 shadow-lg"
           >
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] flex items-center justify-center mb-6">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-700 to-black flex items-center justify-center mb-6">
               <span className="text-3xl">🎯</span>
             </div>
             <h3 className="text-2xl font-[var(--font-playfair)] font-[800] text-[var(--text-primary)] mb-4">
@@ -357,7 +358,7 @@ export function Founder() {
             transition={{ delay: 0.9 }}
             className="bg-white rounded-2xl p-8 shadow-lg"
           >
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[var(--brand-bright-cyan)] to-[var(--brand-deep-cyan)] flex items-center justify-center mb-6">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-700 to-black flex items-center justify-center mb-6">
               <span className="text-3xl">✨</span>
             </div>
             <h3 className="text-2xl font-[var(--font-playfair)] font-[800] text-[var(--text-primary)] mb-4">
@@ -374,7 +375,7 @@ export function Founder() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="mt-16 bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] rounded-3xl p-12 text-center text-white shadow-2xl"
+          className="mt-16 bg-gradient-to-r from-slate-600 via-slate-500 to-zinc-500 rounded-3xl p-12 text-center text-white shadow-2xl"
         >
           <h3 className="text-3xl md:text-4xl font-[var(--font-playfair)] font-[900] mb-4">
             Ready to Start Your Journey?

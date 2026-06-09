@@ -582,11 +582,13 @@ console.log("UPDATE ERROR:", error);
                 </div>
               </div>
             </div>
-
-            {/* Highlights */}
+                    {/* Highlights */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">Highlights</h2>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Highlights
+                </h2>
+
                 <button
                   type="button"
                   onClick={() => addArrayItem('highlights')}
@@ -596,16 +598,20 @@ console.log("UPDATE ERROR:", error);
                   <span className="text-sm">Add</span>
                 </button>
               </div>
-              <div className="space-y-3">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {formData.highlights.map((highlight, index) => (
                   <div key={index} className="flex gap-2">
                     <input
                       type="text"
                       value={highlight}
-                      onChange={(e) => handleArrayChange('highlights', index, e.target.value)}
+                      onChange={(e) =>
+                        handleArrayChange('highlights', index, e.target.value)
+                      }
                       placeholder={`Highlight ${index + 1}`}
                       className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
                     />
+
                     {formData.highlights.length > 1 && (
                       <button
                         type="button"
@@ -633,7 +639,7 @@ console.log("UPDATE ERROR:", error);
                   <span className="text-sm">Add</span>
                 </button>
               </div>
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {formData.inclusions.map((inclusion, index) => (
                   <div key={index} className="flex gap-2">
                     <input
@@ -685,7 +691,7 @@ console.log("UPDATE ERROR:", error);
                         </button>
                       )}
                     </div>
-                    <div className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <input
                         type="text"
                         value={day.title}
