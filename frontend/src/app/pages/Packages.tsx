@@ -16,8 +16,22 @@ const categories = useMemo(() => {
 }, [packages]);
 
 const destinations = useMemo(() => {
-  return ['All', ...new Set(packages.map(p => p.destination))];
-}, [packages]);
+  const filteredByCategory =
+    selectedCategory === "All"
+      ? packages
+      : packages.filter(
+          p => p.category === selectedCategory
+        );
+
+  return [
+    "All",
+    ...new Set(
+      filteredByCategory.map(
+        p => p.destination
+      )
+    ),
+  ];
+}, [packages, selectedCategory]);
 
   useEffect(() => {
   const fetchPackages = async () => {
@@ -32,6 +46,11 @@ const destinations = useMemo(() => {
 
   fetchPackages();
 }, []);
+
+// ADD THIS HERE
+useEffect(() => {
+  console.log("Packages Data:", packages);
+}, [packages]);
 
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -94,14 +113,14 @@ const destinations = useMemo(() => {
       </section>
 
       {/* Filters */}
-      <section className="bg-white border-b border-[var(--card-border)] sticky top-20 z-40 shadow-sm">
+      <section className="bg-white border-b border-[var(--card-border)] sticky relative z-10 shadow-sm">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Category Filters */}
           <div className="mb-4">
             <h3 className="font-[var(--font-nunito)] font-[700] text-[14px] text-[var(--text-secondary)] mb-3">
               CATEGORY
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 max-h-[180px] overflow-y-auto">
               {categories.map((category) => (
                 <button
                   key={category}
@@ -123,7 +142,7 @@ const destinations = useMemo(() => {
             <h3 className="font-[var(--font-nunito)] font-[700] text-[14px] text-[var(--text-secondary)] mb-3">
               DESTINATION
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 max-h-[180px] overflow-y-auto">
               {destinations.map((destination) => (
                 <button
                   key={destination}
