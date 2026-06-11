@@ -17,12 +17,11 @@ import banner2 from "../../assets/images/banner1.png";
 
 const WHATSAPP_NUMBER = '919166284373';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-const YOUTUBE_VIDEO_ID = 'OZHHg1fsTlE';
+//const DRIVE_VIDEO_ID  = '1DZa8NIqu8HKDg9dydx72gtB21J0yd1-6';
 
 
 export function Home() {
-  const [videoError, setVideoError] = useState(false);
-  const videoRef = useRef<HTMLIFrameElement>(null);
+
   const { packages } = usePackages();
 
   // ✅ FIX 1: Declare state FIRST
@@ -144,45 +143,22 @@ useEffect(() => {
     'Vietnam': '🇻🇳'
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!videoRef.current) {
-        setVideoError(true);
-      }
-    }, 5000);
 
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="w-full">
       {/* Hero Section with YouTube Video Background */}
       <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
         {/* Video Background or Fallback */}
-        {!videoError ? (
-          <div className="absolute inset-0 w-full h-full">
-            <iframe
-              ref={videoRef}
-              src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-              className="absolute top-1/2 left-1/2 w-[177.77vh] h-[56.25vw] min-h-full min-w-full -translate-x-1/2 -translate-y-1/2"
-              allow="autoplay; encrypted-media"
-              onError={() => setVideoError(true)}
-              title="Background Video"
-            />
-          </div>
-        ) : (
-          <div className="absolute inset-0 w-full h-full">
-            <img
-              src="https://images.unsplash.com/photo-1619467416348-6a782839e95f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBhZHZlbnR1cmUlMjB3b3JsZCUyMHdhbmRlcmx1c3R8ZW58MXx8fHwxNzc0MDcwMjc5fDA&ixlib=rb-4.1.0&q=80&w=1080"
-              alt="Travel Background"
-              className="w-full h-full object-cover blur-[2px]"
-            />
-            {/* Floating Orbs */}
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-radial from-[var(--brand-warm-amber)] to-transparent opacity-30 blur-3xl animate-orb" />
-            <div className="absolute top-1/3 right-1/4 w-80 h-80 rounded-full bg-gradient-radial from-[var(--brand-orange-red)] to-transparent opacity-20 blur-3xl animate-orb" style={{ animationDelay: '2s' }} />
-            <div className="absolute bottom-1/4 left-1/3 w-72 h-72 rounded-full bg-gradient-radial from-[var(--brand-bright-cyan)] to-transparent opacity-25 blur-3xl animate-orb" style={{ animationDelay: '4s' }} />
-          </div>
-        )}
+     <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  className="absolute inset-0 w-full h-full object-cover"
+>
+  <source src="/video/hero.MP4" type="video/mp4" />
+</video>
 
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/50 to-black/85" />
@@ -302,7 +278,7 @@ useEffect(() => {
       </section>
 
          {/* Banner 1 */}
-              <section className="w-full bg-white py-6 md:py-8">
+              <section className="w-full bg-white dark:bg-slate-950 py-6 md:py-8 transition-colors">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="overflow-hidden rounded-3xl shadow-xl">
                     <img
@@ -315,7 +291,7 @@ useEffect(() => {
               </section>
 
       {/* Destinations Grid */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-slate-950 transition-colors">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -398,7 +374,7 @@ useEffect(() => {
               >
                 <Link
                   to={`/packages/${pkg.id}`}
-                  className="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                  className="group block bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
                 >
                  <div className="relative h-[240px] overflow-hidden">
                 <img
@@ -463,7 +439,7 @@ useEffect(() => {
 
       
                 {/* Banner 2 */}
-                <section className="w-full bg-[var(--warm-section-bg)] py-6 md:py-8">
+                <section className="w-full bg-[var(--warm-section-bg)] py-6 md:py-8 transition-colors">
                   <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="overflow-hidden rounded-3xl shadow-xl">
                       <img
@@ -476,7 +452,7 @@ useEffect(() => {
                 </section>
 
       {/* Why Choose Us */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-slate-950 transition-colors">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -502,7 +478,7 @@ useEffect(() => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className={`${item.bg} rounded-2xl p-8 text-center transform hover:scale-105 transition-all`}
+                className={`${item.bg} dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl p-8 text-center transform hover:scale-105 transition-all`}
               >
                 <div className="text-[56px] mb-4">{item.icon}</div>
                 <h3 className="font-[var(--font-playfair)] font-[800] text-[20px] text-[var(--text-primary)] mb-3">
@@ -526,7 +502,7 @@ useEffect(() => {
     {reviews.map((review: any, index) => (
       <div
   key={index}
-  className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row md:h-[260px]"
+  className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row md:h-[260px]"
 >
       
         {/* LEFT IMAGE */}
@@ -546,11 +522,11 @@ useEffect(() => {
             {"☆".repeat(5 - review.rating)}
           </div>
 
-         <p className="text-gray-600 text-sm leading-relaxed line-clamp-4 md:line-clamp-5">
+         <p className="text-gray-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-4 md:line-clamp-5">
             {review.comment}
           </p>
 
-          <h4 className="font-bold text-gray-800">
+          <h4 className="font-bold text-gray-800 dark:text-slate-100">
             {review.name}
           </h4>
 

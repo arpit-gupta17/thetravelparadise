@@ -24,6 +24,19 @@
   --font-nunito: 'Nunito', sans-serif;
 }
 
+.dark {
+  /* Backgrounds */
+  --page-bg: #0b0f19;
+  --card-border: #1e293b;
+  --warm-section-bg: #131926;
+  --light-blue-bg: #0f172a;
+  
+  /* Text Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
 body {
   font-family: var(--font-nunito);
   background-color: var(--page-bg);

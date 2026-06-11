@@ -117,31 +117,13 @@ useEffect(() => {
                   {pkg.highlights.map((highlight, index) => (
                     <div
                       key={index}
-                      className="
-bg-[#fff8f4]
-border
-border-[#f4d7a6]
-rounded-lg
-px-3
-py-2
-flex
-items-start
-gap-2
-"
+                      className="bg-[#fff8f4] dark:bg-slate-900 border border-[#f4d7a6] dark:border-slate-800 rounded-lg px-3 py-2 flex items-start gap-2 transition-colors"
                     >
                       <div className="w-6 h-6 rounded-full bg-[var(--brand-warm-amber)] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check className="w-4 h-4 text-white" />
                       </div>
-                        <p
-                          className="
-                          font-[var(--font-nunito)]
-                          text-[13px]
-                          leading-5
-                          text-[var(--text-primary)]
-                          "
-                        >
-                          {highlight}
-      
+                      <p className="font-[var(--font-nunito)] text-[13px] leading-5 text-[var(--text-primary)]">
+                        {highlight}
                       </p>
                     </div>
                   ))}
@@ -171,9 +153,9 @@ gap-2
                         <h3 className="font-[var(--font-nunito)] font-[800] text-[18px] text-[var(--text-primary)] mb-2">
                           Day {day.day}: {day.title}
                         </h3>
-                        <p className="font-[var(--font-nunito)] text-[15px] text-[var(--text-secondary)] leading-relaxed">
+                        <div className="font-[var(--font-nunito)] text-[15px] text-[var(--text-secondary)] leading-relaxed">
                           {day.description}
-                        </p>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -193,7 +175,7 @@ gap-2
                   {pkg.inclusions.map((inclusion, index) => (
                     <div
                       key={index}
-                      className="bg-[#f0fbff] rounded-xl p-4 flex items-start gap-3"
+                      className="bg-[#f0fbff] dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-xl p-4 flex items-start gap-3 transition-colors"
                     >
                       <div className="w-6 h-6 rounded-full bg-[var(--brand-bright-cyan)] flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Check className="w-4 h-4 text-white" />
@@ -215,7 +197,7 @@ gap-2
                 transition={{ duration: 0.6 }}
                 className="sticky top-32"
               >
-                <div className="bg-white rounded-2xl shadow-2xl p-6 border border-[var(--card-border)]">
+                <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl p-6 border border-[var(--card-border)] transition-colors">
                   <h3 className="font-[var(--font-playfair)] font-[800] text-[24px] text-[var(--text-primary)] mb-6">
                     Book This Package
                   </h3>
@@ -233,7 +215,7 @@ gap-2
                           className={`py-3 rounded-lg font-[var(--font-nunito)] font-[700] text-[13px] transition-all ${
                             selectedTier === tier
                               ? 'bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] text-white shadow-md'
-                              : 'bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200'
+                              : 'bg-gray-100 dark:bg-slate-800 text-[var(--text-secondary)] hover:bg-gray-200 dark:hover:bg-slate-700'
                           }`}
                         >
                           {tierLabels[tier]}
@@ -243,7 +225,7 @@ gap-2
                   </div>
 
                   {/* Price Display */}
-                  <div className="bg-gradient-to-br from-[var(--warm-section-bg)] to-[#fff] rounded-xl p-6 mb-6 border-2 border-[var(--brand-warm-amber)]">
+                  <div className="bg-gradient-to-br from-[var(--warm-section-bg)] to-white dark:to-slate-800/50 rounded-xl p-6 mb-6 border-2 border-[var(--brand-warm-amber)] transition-colors">
                     <div className="text-center">
                       <div className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] mb-1">
                         {tierLabels[selectedTier]} Package
@@ -285,7 +267,7 @@ gap-2
                   </div>
 
                   {/* Additional Info */}
-                  <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-slate-800">
                     <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-muted)] text-center">
                       24/7 Customer Support Available
                     </p>

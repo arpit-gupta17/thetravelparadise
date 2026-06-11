@@ -95,7 +95,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 group"
+              className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 group"
             >
               <div className="w-14 h-14 rounded-full bg-[var(--brand-orange-red)]/10 flex items-center justify-center mb-4 group-hover:bg-[var(--brand-orange-red)]/20 transition-colors">
                 <Phone className="w-7 h-7 text-[var(--brand-orange-red)]" />
@@ -118,7 +118,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 group"
+              className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 group"
             >
               <div className="w-14 h-14 rounded-full bg-[var(--brand-whatsapp-green)]/10 flex items-center justify-center mb-4 group-hover:bg-[var(--brand-whatsapp-green)]/20 transition-colors">
                 <Phone className="w-7 h-7 text-[var(--brand-whatsapp-green)]" />
@@ -139,7 +139,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 group"
+              className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 group"
             >
               <div className="w-14 h-14 rounded-full bg-[var(--brand-deep-cyan)]/10 flex items-center justify-center mb-4 group-hover:bg-[var(--brand-deep-cyan)]/20 transition-colors">
                 <Mail className="w-7 h-7 text-[var(--brand-deep-cyan)]" />
@@ -169,7 +169,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               transition={{ duration: 0.6 }}
               className="lg:col-span-2"
             >
-              <div className="bg-white rounded-2xl shadow-xl p-8">
+              <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl shadow-xl p-8 transition-colors">
                 <h2 className="font-[var(--font-playfair)] font-[800] text-[28px] text-[var(--text-primary)] mb-6">
                   Send Us a Message
                 </h2>
@@ -185,7 +185,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 text-[var(--text-primary)] font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
                         placeholder="Enter your name"
                       />
                     </div>
@@ -199,7 +199,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 text-[var(--text-primary)] font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
                         placeholder="Enter your phone"
                       />
                     </div>
@@ -215,7 +215,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 text-[var(--text-primary)] font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -230,7 +230,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 text-[var(--text-primary)] font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all"
                       placeholder="What is this about?"
                     />
                   </div>
@@ -245,7 +245,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                       onChange={handleChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all resize-none"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-800 bg-white dark:bg-slate-950 text-[var(--text-primary)] font-[var(--font-nunito)] text-[15px] focus:outline-none focus:ring-2 focus:ring-[var(--brand-orange-red)] focus:border-transparent transition-all resize-none"
                       placeholder="Tell us more about your travel plans..."
                     />
                   </div>
@@ -269,7 +269,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               className="lg:col-span-1 space-y-6"
             >
               {/* Office Hours */}
-              <div className="bg-white rounded-2xl shadow-xl p-6">
+              <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl shadow-xl p-6 transition-colors">
                 <div className="w-12 h-12 rounded-full bg-[var(--brand-warm-amber)]/10 flex items-center justify-center mb-4">
                   <Clock className="w-6 h-6 text-[var(--brand-warm-amber)]" />
                 </div>
@@ -289,7 +289,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
 
               {/* Follow Us */}
-              <div className="bg-white rounded-2xl shadow-xl p-6">
+              <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl shadow-xl p-6 transition-colors">
                 <h3 className="font-[var(--font-playfair)] font-[800] text-[20px] text-[var(--text-primary)] mb-4">
                   Follow Us
                 </h3>
@@ -300,7 +300,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 hover:bg-opacity-100 transition-all transform hover:scale-110"
+                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-100 dark:bg-slate-800 hover:bg-opacity-100 transition-all transform hover:scale-110"
                       style={{ backgroundColor: `${social.color}15` }}
                       aria-label={social.label}
                     >

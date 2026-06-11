@@ -126,7 +126,7 @@ export function About() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-slate-950 transition-colors">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -145,7 +145,7 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="bg-gradient-to-br from-[var(--warm-section-bg)] to-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                className="bg-gradient-to-br from-[var(--warm-section-bg)] to-white dark:to-slate-900 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
               >
                 <div className="text-[56px] mb-3">{stat.icon}</div>
                 <div className="font-[var(--font-nunito)] font-[900] text-[38px] text-[var(--brand-orange-red)] mb-2">

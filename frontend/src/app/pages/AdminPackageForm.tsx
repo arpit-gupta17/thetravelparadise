@@ -347,20 +347,20 @@ console.log("UPDATE ERROR:", error);
 };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-lg p-8"
+          className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8"
         >
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100">
               {isEdit ? 'Edit Package' : 'Add New Package'}
             </h1>
             <button
               onClick={() => navigate('/admin/dashboard')}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-lg transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -369,10 +369,10 @@ console.log("UPDATE ERROR:", error);
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Information */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">Basic Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Package Title *
                   </label>
                   <input
@@ -380,20 +380,20 @@ console.log("UPDATE ERROR:", error);
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Category *
                   </label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   >
                     <option value="International">International</option>
@@ -404,7 +404,7 @@ console.log("UPDATE ERROR:", error);
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Destination *
                   </label>
                   <input
@@ -412,13 +412,13 @@ console.log("UPDATE ERROR:", error);
                     name="destination"
                     value={formData.destination}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Duration *
                   </label>
                   <input
@@ -427,13 +427,13 @@ console.log("UPDATE ERROR:", error);
                     value={formData.duration}
                     onChange={handleChange}
                     placeholder="e.g., 5 Nights 6 Days"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     required
                   />
                 </div>
 
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Short Description *
                   </label>
                   <textarea
@@ -441,14 +441,14 @@ console.log("UPDATE ERROR:", error);
                     value={formData.shortDescription}
                     onChange={handleChange}
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
                 </div><div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
 
   {/* Cover Image */}
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
+    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
       Cover Image *
     </label>
 
@@ -467,7 +467,7 @@ console.log("UPDATE ERROR:", error);
       value={formData.coverImage}
       onChange={handleChange}
       placeholder="Or paste image URL"
-      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
     />
 
     {/* Preview */}
@@ -482,7 +482,7 @@ console.log("UPDATE ERROR:", error);
 
   {/* Hero Image */}
   <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
+    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
       Hero Image *
     </label>
 
@@ -501,7 +501,7 @@ console.log("UPDATE ERROR:", error);
       value={formData.heroImage}
       onChange={handleChange}
       placeholder="Or paste image URL"
-      className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
     />
 
     {/* Preview */}
@@ -519,10 +519,10 @@ console.log("UPDATE ERROR:", error);
 
             {/* Pricing */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Pricing</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">Pricing</h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Standard Price *
                   </label>
                   <input
@@ -531,13 +531,13 @@ console.log("UPDATE ERROR:", error);
                   step="1"
                     value={formData.pricing.standard}
                     onChange={(e) => handlePricingChange('standard', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Deluxe Price *
                   </label>
                   <input
@@ -546,13 +546,13 @@ console.log("UPDATE ERROR:", error);
   step="1"
                     value={formData.pricing.deluxe}
                     onChange={(e) => handlePricingChange('deluxe', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Premium Price *
                   </label>
                   <input
@@ -561,20 +561,20 @@ console.log("UPDATE ERROR:", error);
   step="1"
                     value={formData.pricing.premium}
                     onChange={(e) => handlePricingChange('premium', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
                     Price Unit *
                   </label>
                   <select
                     name="priceUnit"
                     value={formData.priceUnit}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                   >
                     <option value="per person">per person</option>
                     <option value="per couple">per couple</option>
@@ -585,7 +585,7 @@ console.log("UPDATE ERROR:", error);
                     {/* Highlights */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
                   Highlights
                 </h2>
 
@@ -609,7 +609,7 @@ console.log("UPDATE ERROR:", error);
                         handleArrayChange('highlights', index, e.target.value)
                       }
                       placeholder={`Highlight ${index + 1}`}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                      className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     />
 
                     {formData.highlights.length > 1 && (
@@ -629,7 +629,7 @@ console.log("UPDATE ERROR:", error);
             {/* Inclusions */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">Inclusions</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">Inclusions</h2>
                 <button
                   type="button"
                   onClick={() => addArrayItem('inclusions')}
@@ -647,7 +647,7 @@ console.log("UPDATE ERROR:", error);
                       value={inclusion}
                       onChange={(e) => handleArrayChange('inclusions', index, e.target.value)}
                       placeholder={`Inclusion ${index + 1}`}
-                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                      className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     />
                     {formData.inclusions.length > 1 && (
                       <button
@@ -666,7 +666,7 @@ console.log("UPDATE ERROR:", error);
             {/* Itinerary */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">Itinerary</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">Itinerary</h2>
                 <button
                   type="button"
                   onClick={addItineraryDay}
@@ -678,9 +678,9 @@ console.log("UPDATE ERROR:", error);
               </div>
               <div className="space-y-4">
                 {formData.itinerary.map((day, index) => (
-                  <div key={index} className="p-4 border border-gray-200 rounded-lg">
+                  <div key={index} className="p-4 border border-gray-200 dark:border-slate-600 rounded-lg dark:bg-slate-750">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-gray-900">Day {day.day}</h3>
+                      <h3 className="font-semibold text-gray-900 dark:text-slate-100">Day {day.day}</h3>
                       {formData.itinerary.length > 1 && (
                         <button
                           type="button"
@@ -697,14 +697,14 @@ console.log("UPDATE ERROR:", error);
                         value={day.title}
                         onChange={(e) => handleItineraryChange(index, 'title', e.target.value)}
                         placeholder="Day title"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                       />
                       <textarea
                         value={day.description}
                         onChange={(e) => handleItineraryChange(index, 'description', e.target.value)}
                         placeholder="Day description"
                         rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                       />
                     </div>
                   </div>
@@ -713,12 +713,12 @@ console.log("UPDATE ERROR:", error);
             </div>
 
             {/* Submit Buttons */}
-            <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+            <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-slate-600">
               <button
                 type="button"
                 disabled={uploading}
                 onClick={() => navigate('/admin/dashboard')}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </button>

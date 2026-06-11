@@ -113,7 +113,7 @@ useEffect(() => {
       </section>
 
       {/* Filters */}
-      <section className="bg-white border-b border-[var(--card-border)] sticky relative z-10 shadow-sm">
+      <section className="bg-white dark:bg-slate-900 border-b border-[var(--card-border)] sticky relative z-10 shadow-sm transition-colors">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Category Filters */}
           <div className="mb-4">
@@ -128,7 +128,7 @@ useEffect(() => {
                   className={`px-5 py-2 rounded-full font-[var(--font-nunito)] font-[600] text-[14px] transition-all ${
                     selectedCategory === category
                       ? 'bg-gradient-to-r from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] text-white shadow-md'
-                      : 'bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200'
+                      : 'bg-gray-100 dark:bg-slate-800 text-[var(--text-secondary)] hover:bg-gray-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {category}
@@ -150,7 +150,7 @@ useEffect(() => {
                   className={`px-5 py-2 rounded-full font-[var(--font-nunito)] font-[600] text-[14px] transition-all ${
                     selectedDestination === destination
                       ? 'bg-[var(--brand-deep-cyan)] text-white shadow-md'
-                      : 'bg-gray-100 text-[var(--text-secondary)] hover:bg-gray-200'
+                      : 'bg-gray-100 dark:bg-slate-800 text-[var(--text-secondary)] hover:bg-gray-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {destination}
@@ -185,7 +185,7 @@ useEffect(() => {
                 >
                   <Link
                     to={`/packages/${pkg.id}`}
-                    className="group block bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                    className="group block bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
                   >
                     <div className="relative h-[240px] overflow-hidden">
                     <img
@@ -202,7 +202,7 @@ useEffect(() => {
                       <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                         {pkg.category}
                       </div>
-                      <div className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-[var(--text-primary)] font-[var(--font-nunito)] font-[600] text-[12px]">
+                      <div className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-sm text-[var(--text-primary)] dark:text-slate-200 font-[var(--font-nunito)] font-[600] text-[12px]">
                         {pkg.destination}
                       </div>
                     </div>

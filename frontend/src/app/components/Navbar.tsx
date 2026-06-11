@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Instagram, Linkedin, Menu, X } from 'lucide-react';
+import { Instagram, Linkedin, Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTheme } from 'next-themes';
 import { XIcon } from './XIcon';
 import logoImage from "../../assets/images/logo.png";
 
@@ -11,6 +12,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { theme, setTheme } = useTheme();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -43,7 +45,7 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-[20px] shadow-md text-[var(--text-primary)] transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-950/95 backdrop-blur-[20px] shadow-md text-[var(--text-primary)] dark:text-slate-100 transition-all duration-300 border-b border-transparent dark:border-slate-800"
       >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
@@ -57,11 +59,11 @@ export function Navbar() {
               />
 
               <div className="flex flex-col leading-tight">
-                <span className="font-bold text-[15px] md:text-[16px] text-[var(--text-primary)]">
+                <span className="font-bold text-[15px] md:text-[16px] text-[var(--text-primary)] dark:text-slate-100">
                   The Travel Paradise
                 </span>
 
-                <span className="text-[10px] md:text-[11px] text-[var(--text-secondary)]">
+                <span className="text-[10px] md:text-[11px] text-[var(--text-secondary)] dark:text-slate-400">
                   Your Journey Our Responsibility
                 </span>
               </div>
@@ -77,7 +79,7 @@ export function Navbar() {
                   className={`font-[var(--font-nunito)] font-[600] text-[15px] transition-all relative group ${
                     location.pathname === link.path
                       ? 'text-[var(--brand-orange-red)]'
-                      : 'text-[var(--text-primary)] hover:text-[var(--brand-orange-red)]'
+                      : 'text-[var(--text-primary)] dark:text-slate-200 hover:text-[var(--brand-orange-red)] dark:hover:text-[var(--brand-orange-red)]'
                   }`}
                 >
                   {link.name}
@@ -92,7 +94,7 @@ export function Navbar() {
                 </Link>
               ))}
 
-              <div className="w-[1px] h-8 bg-gray-300" />
+              <div className="w-[1px] h-8 bg-gray-300 dark:bg-slate-700" />
 
               {/* Social Icons */}
               <div className="flex items-center gap-2">
@@ -102,7 +104,7 @@ export function Navbar() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-gray-100 hover:bg-[var(--brand-orange-red)] hover:text-white text-[var(--text-secondary)]"
+                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-gray-100 dark:bg-slate-800 hover:bg-[var(--brand-orange-red)] hover:text-white dark:hover:text-white text-[var(--text-secondary)] dark:text-slate-300"
                     aria-label={social.label}
                   >
                     <social.icon className="w-4 h-4" />
@@ -110,7 +112,18 @@ export function Navbar() {
                 ))}
               </div>
 
-              <div className="w-[1px] h-8 bg-gray-300" />
+              <div className="w-[1px] h-8 bg-gray-300 dark:bg-slate-700" />
+
+              {/* Theme Toggle */}
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] hover:text-[var(--brand-orange-red)] dark:text-slate-300 dark:hover:text-[var(--brand-orange-red)]"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+
+              <div className="w-[1px] h-8 bg-gray-300 dark:bg-slate-700" />
 
               {/* WhatsApp */}
               <a
@@ -126,7 +139,7 @@ export function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-all bg-gray-100 text-[var(--text-primary)]"
+              className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-all bg-gray-100 dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-200"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen
@@ -147,7 +160,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed top-16 md:top-20 left-0 right-0 z-40 lg:hidden bg-[var(--text-primary)] backdrop-blur-xl shadow-2xl"
+            className="fixed top-16 md:top-20 left-0 right-0 z-40 lg:hidden bg-[var(--text-primary)] dark:bg-slate-800 backdrop-blur-xl shadow-2xl"
           >
             <div className="max-w-[1400px] mx-auto px-4 py-6">
 
@@ -173,6 +186,20 @@ export function Navbar() {
                     </Link>
                   </motion.div>
                 ))}
+
+                <div className="border-t border-white/10 my-2" />
+
+                {/* Mobile Theme Toggle */}
+                <button
+                  onClick={() => {
+                    setTheme(theme === 'dark' ? 'light' : 'dark');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-between w-full py-3 px-4 rounded-lg font-[var(--font-nunito)] font-[600] text-[16px] text-white hover:bg-white/10 transition-all text-left"
+                >
+                  <span>Toggle Theme</span>
+                  {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-gray-300" />}
+                </button>
 
                 <div className="border-t border-white/10 my-2" />
 
