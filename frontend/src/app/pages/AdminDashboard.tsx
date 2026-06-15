@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion'; 
-import { Plus, Edit, Trash2, LogOut, Package as PackageIcon, Search, ArrowUp,ArrowDown } from 'lucide-react';
+import { Plus, Edit, Trash2, LogOut, Package as PackageIcon, Search } from 'lucide-react';
 import { usePackages } from '../contexts/PackageContext';
 import { supabase } from '../../lib/supabase';
 
@@ -43,45 +43,6 @@ export const AdminDashboard = () => {
   });
 
   const categories = ['All', ...Array.from(new Set(packages.map(pkg => pkg.category)))];
-
-  const movePackage = async (
-  currentIndex: number,
-  direction: "up" | "down"
-) => {
-  const newIndex =
-    direction === "up"
-      ? currentIndex - 1
-      : currentIndex + 1;
-
-  if (
-    newIndex < 0 ||
-    newIndex >= filteredPackages.length
-  )
-    return;
-
-  const currentPackage = filteredPackages[currentIndex];
-  const targetPackage = filteredPackages[newIndex];
-
-  try {
-    await supabase
-      .from("packages")
-      .update({
-        displayOrder: targetPackage.displayOrder,
-      })
-      .eq("id", currentPackage.id);
-
-    await supabase
-      .from("packages")
-      .update({
-        displayOrder: currentPackage.displayOrder,
-      })
-      .eq("id", targetPackage.id);
-
-    window.location.reload();
-  } catch (err) {
-    console.error(err);
-  }
-};
 
   return (
     <div className="min-h-screen bg-[var(--page-bg)] transition-colors">
@@ -193,9 +154,6 @@ export const AdminDashboard = () => {
                   <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
                     Actions
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
-                    Order
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-slate-800">
@@ -250,23 +208,6 @@ export const AdminDashboard = () => {
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col items-center gap-1">
-                        <button
-                          onClick={() => movePackage(index, "up")}
-                          className="p-1 bg-gray-100 dark:bg-slate-800 rounded hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200"
-                        >
-                          <ArrowUp className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          onClick={() => movePackage(index, "down")}
-                          className="p-1 bg-gray-100 dark:bg-slate-800 rounded hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200"
-                        >
-                          <ArrowDown className="w-4 h-4" />
                         </button>
                       </div>
                     </td>

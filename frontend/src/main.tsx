@@ -7,7 +7,7 @@ import "./styles/index.css";
 
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
     <RouterProvider router={router} />
   </ThemeProvider>
 );

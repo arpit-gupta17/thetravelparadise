@@ -30,6 +30,7 @@ export interface Package {
   promoCode?: string; // Added promo code field
   discount?: number; // Added discount percentage field
   priceUnit: string;
+  display_order?: number; // Controls display order in admin dashboard
 }
 
 export const packages: Package[] = [

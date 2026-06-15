@@ -43,9 +43,16 @@ useEffect(() => {
       .select("*");
 
     if (error) {
-      console.error(error);
+      console.error('Context fetch error:', error);
     } else {
-      setPackages(data || []);
+      const fetchedPackages = data || [];
+      // Sort locally to avoid Supabase error if display_order column doesn't exist yet
+      const sortedPackages = [...fetchedPackages].sort((a, b) => {
+        const orderA = a.display_order ?? 999999;
+        const orderB = b.display_order ?? 999999;
+        return orderA - orderB;
+      });
+      setPackages(sortedPackages);
     }
   };
 

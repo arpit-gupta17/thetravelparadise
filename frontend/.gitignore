@@ -1,0 +1,34 @@
+<<<<<<< HEAD
+node_modules
+=======
+# dependencies
+node_modules
+
+# env files (VERY IMPORTANT)
+.env
+.env.*
+
+# build files
+dist
+build
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# zip
+*.zip
+
+# markdown (optional if sensitive)
+*.md
+
+
+
+frontend/public/video/hero.MP4
+frontend/public/video/hero.mp4
+>>>>>>> 48e1eeb69a32842b60b883f773da01f58dc2c626

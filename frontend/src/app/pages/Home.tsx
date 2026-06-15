@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 //import { motion } from 'motion/react';
-import { ChevronDown, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-react';
+import { ChevronDown, Instagram, Linkedin, Twitter, ArrowRight, X } from 'lucide-react';
 //import { packages, getDestinationInfo } from '../data/packages';
 import logoImage from "../../assets/images/logo.png";
 import { usePackages } from "../contexts/PackageContext";
@@ -17,7 +17,7 @@ import banner2 from "../../assets/images/banner1.png";
 
 const WHATSAPP_NUMBER = '919166284373';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-//const DRIVE_VIDEO_ID  = '1DZa8NIqu8HKDg9dydx72gtB21J0yd1-6';
+const DRIVE_VIDEO_ID = '1DZa8NIqu8HKDg9dydx72gtB21J0yd1-6';
 
 
 export function Home() {
@@ -27,6 +27,7 @@ export function Home() {
   // ✅ FIX 1: Declare state FIRST
  
   const [reviews, setReviews] = useState<any[]>([]);
+  const [selectedDescPkg, setSelectedDescPkg] = useState<any>(null);
 
   // ✅ FIX 2: useMemo to avoid recalculation + prevent crash
   const destinationInfo = useMemo(() => {
@@ -150,15 +151,20 @@ useEffect(() => {
       {/* Hero Section with YouTube Video Background */}
       <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
         {/* Video Background or Fallback */}
-     <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="absolute inset-0 w-full h-full object-cover"
->
-  <source src="/video/hero.MP4" type="video/mp4" />
-</video>
+       
+      <div className="absolute inset-0 overflow-hidden">
+        <iframe
+          src="https://www.youtube.com/embed/WI2XmzGbf-g?autoplay=1&mute=1&loop=1&playlist=WI2XmzGbf-g&controls=0&modestbranding=1&rel=0"
+          title="Travel Paradise Hero Video"
+          className="absolute top-1/2 left-1/2 w-[300%] h-full md:w-[177.78vh] md:h-[56.25vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        />
+      </div>
+
+{/* Dark Overlay */}
+<div className="absolute inset-0 bg-black/20"></div>
 
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/50 to-black/85" />
@@ -310,7 +316,15 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="
+  flex
+  overflow-x-auto
+  gap-4
+  pb-4
+  snap-x
+  snap-mandatory
+  lg:grid lg:grid-cols-4 lg:gap-6
+">
             {destinationInfo.slice(0, 12).map((dest: any, index: number) => (
               <motion.div
                 key={dest.name}
@@ -321,7 +335,7 @@ useEffect(() => {
               >
                 <Link
                   to={`/packages?destination=${encodeURIComponent(dest.name)}`}
-                  className="group block relative h-[400px] rounded-2xl overflow-hidden card-3d"
+                  className="group block relative h-[220px] md:h-[400px] rounded-2xl overflow-hidden card-3d"
                 >
                   <img
                     src={packages.find(p => p.destination === dest.name)?.coverImage}
@@ -401,8 +415,15 @@ useEffect(() => {
                       </p>
 
                       {pkg.shortDescription?.length > 120 && (
-                        <button className="text-orange-500 text-sm font-semibold hover:underline">
-                          Read More
+                        <button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedDescPkg(pkg);
+                          }}
+                          className="text-[var(--brand-orange-red)] text-[14px] font-[800] hover:underline mt-1 inline-flex items-center gap-1 transition-all"
+                        >
+                          Read More <ArrowRight className="w-3 h-3" />
                         </button>
                       )}
                     </div>
@@ -470,7 +491,15 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="
+  flex
+  overflow-x-auto
+  gap-4
+  pb-4
+  snap-x
+  snap-mandatory
+  lg:grid lg:grid-cols-4 lg:gap-6
+">
             {whyChooseUs.map((item, index) => (
               <motion.div
                 key={index}
@@ -582,6 +611,62 @@ useEffect(() => {
 >
   📩
 </Link>
+
+      {/* Description Modal */}
+      <AnimatePresence>
+        {selectedDescPkg && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+            onClick={() => setSelectedDescPkg(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-2xl w-full p-8 relative overflow-hidden border border-gray-100 dark:border-slate-700"
+            >
+              <button 
+                onClick={() => setSelectedDescPkg(null)}
+                className="absolute top-5 right-5 p-2 rounded-full bg-gray-100/80 hover:bg-gray-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 transition-colors text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="flex flex-col gap-3 mb-6 pr-10">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded-full bg-orange-100 text-[var(--brand-orange-red)] dark:bg-orange-500/20 dark:text-orange-400 font-[var(--font-nunito)] font-[800] text-[12px] uppercase tracking-wider">
+                    {selectedDescPkg.category}
+                  </span>
+                </div>
+                <h3 className="font-[var(--font-playfair)] font-[900] text-[32px] text-gray-900 dark:text-white leading-tight">
+                  {selectedDescPkg.title}
+                </h3>
+              </div>
+              <div className="max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar">
+                <p className="font-[var(--font-nunito)] text-[18px] text-gray-700 dark:text-gray-200 leading-[1.8] whitespace-pre-wrap font-medium">
+                  {selectedDescPkg.description || selectedDescPkg.shortDescription}
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-gray-100 dark:border-slate-800 flex justify-end gap-4">
+                <button
+                  onClick={() => setSelectedDescPkg(null)}
+                  className="px-6 py-3 rounded-full bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300 font-[var(--font-nunito)] font-[700] text-[15px] hover:bg-gray-200 dark:hover:bg-slate-700 transition-all"
+                >
+                  Close
+                </button>
+                <Link
+                  to={`/packages/${selectedDescPkg.id}`}
+                  className="px-6 py-3 rounded-full gradient-primary text-white font-[var(--font-nunito)] font-[700] text-[15px] shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                >
+                  View Full Package <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo } from 'react';
+import { X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export function Packages() {
@@ -10,6 +11,7 @@ export function Packages() {
   const [selectedDestination, setSelectedDestination] = useState<string>('All');
 
 const [packages, setPackages] = useState<any[]>([]);
+const [selectedDescPkg, setSelectedDescPkg] = useState<any>(null);
 
 const categories = useMemo(() => {
   return ['All', ...new Set(packages.map(p => p.category))];
@@ -210,9 +212,24 @@ useEffect(() => {
                       <h3 className="font-[var(--font-playfair)] font-[800] text-[20px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors">
                         {pkg.title}
                       </h3>
-                      <p className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] mb-4 line-clamp-2">
-                        {pkg.shortDescription}
-                      </p>
+                      <div className="flex-grow">
+                        <p className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] mb-2 line-clamp-2">
+                          {pkg.shortDescription}
+                        </p>
+
+                        {pkg.shortDescription?.length > 100 && (
+                          <button 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setSelectedDescPkg(pkg);
+                            }}
+                            className="text-orange-500 text-sm font-semibold hover:underline mb-4"
+                          >
+                            Read More
+                          </button>
+                        )}
+                      </div>
                       <div className="flex items-center justify-between">
                         <div>
                           <span className="font-[var(--font-nunito)] text-[12px] text-[var(--text-muted)]">
@@ -242,6 +259,53 @@ useEffect(() => {
           )}
         </div>
       </section>
+
+      {/* Description Modal */}
+      <AnimatePresence>
+        {selectedDescPkg && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setSelectedDescPkg(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-2xl w-full p-8 relative overflow-hidden border border-[var(--card-border)]"
+            >
+              <button 
+                onClick={() => setSelectedDescPkg(null)}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+              <div className="flex items-center gap-3 mb-6 pr-10">
+                <span className="px-3 py-1 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[12px]">
+                  {selectedDescPkg.category}
+                </span>
+                <h3 className="font-[var(--font-playfair)] font-[800] text-[24px] text-[var(--text-primary)]">
+                  {selectedDescPkg.title}
+                </h3>
+              </div>
+              <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                <p className="font-[var(--font-nunito)] text-[16px] text-[var(--text-secondary)] leading-relaxed whitespace-pre-wrap">
+                  {selectedDescPkg.description || selectedDescPkg.shortDescription}
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-gray-100 dark:border-slate-800 flex justify-end">
+                <Link
+                  to={`/packages/${selectedDescPkg.id}`}
+                  className="px-6 py-3 rounded-full gradient-primary text-white font-[var(--font-nunito)] font-[700] text-[14px] shadow-lg hover:shadow-xl transition-all"
+                >
+                  View Full Package
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
