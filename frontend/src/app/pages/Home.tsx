@@ -37,6 +37,7 @@ export function Home() {
           acc[pkg.destination] = {
             name: pkg.destination,
             count: 1,
+            image: pkg.coverImage || pkg.images?.[0] || pkg.image || "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
           };
         } else {
           acc[pkg.destination].count++;
@@ -316,15 +317,43 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <div className="
-  flex
-  overflow-x-auto
-  gap-4
-  pb-4
-  snap-x
-  snap-mandatory
-  lg:grid lg:grid-cols-4 lg:gap-6
-">
+          {/* Mobile Only - Horizontal Scroll with Circles */}
+          <div className="md:hidden overflow-x-auto pb-6 px-4 -mx-4 snap-x flex gap-6 items-start" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <style>{`
+              .md\\:hidden::-webkit-scrollbar {
+                display: none;
+              }
+            `}</style>
+            {destinationInfo.map((dest: any, index: number) => (
+              <motion.div
+                key={dest.name}
+                className="flex-shrink-0 flex flex-col items-center snap-center w-20 sm:w-24"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05, duration: 0.4 }}
+              >
+                <Link
+                  to={`/packages?destination=${encodeURIComponent(dest.name)}`}
+                  className="group flex flex-col items-center gap-3 w-full"
+                >
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden shadow-md border-2 border-transparent group-hover:border-[var(--brand-orange-red)] transition-all shrink-0">
+                    <img 
+                      src={dest.image} 
+                      alt={dest.name} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <span className="font-[var(--font-nunito)] font-bold text-[13px] text-[var(--text-primary)] text-center leading-tight">
+                    {dest.name}
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Desktop + Tablet */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {destinationInfo.slice(0, 12).map((dest: any, index: number) => (
               <motion.div
                 key={dest.name}
@@ -335,22 +364,23 @@ useEffect(() => {
               >
                 <Link
                   to={`/packages?destination=${encodeURIComponent(dest.name)}`}
-                  className="group block relative h-[220px] md:h-[400px] rounded-2xl overflow-hidden card-3d"
+                  className="group block relative h-[400px] rounded-2xl overflow-hidden card-3d shadow-lg"
                 >
-                  <img
-                    src={packages.find(p => p.destination === dest.name)?.coverImage}
-                    alt={dest.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <div className="text-[48px] mb-2">{destinationEmojis[dest.name]}</div>
-                    <h3 className="font-[var(--font-playfair)] font-[800] text-[28px] mb-2">
+                  <div className="absolute inset-0">
+                    <img
+                      src={dest.image}
+                      alt={dest.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-full p-6 text-left transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                    <h3 className="font-[var(--font-playfair)] font-[800] text-[28px] text-white mb-2 drop-shadow-md">
                       {dest.name}
                     </h3>
-                    <p className="font-[var(--font-nunito)] text-[14px] text-white/80">
-                      {dest.count} {dest.count === 1 ? 'Package' : 'Packages'}
-                    </p>
+                    <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/20 backdrop-blur-md text-white font-[var(--font-nunito)] text-[14px] font-bold border border-white/30 hover:bg-white/30 transition-colors">
+                      Explore Packages <ArrowRight className="w-4 h-4" />
+                    </div>
                   </div>
                 </Link>
               </motion.div>
@@ -491,15 +521,7 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <div className="
-  flex
-  overflow-x-auto
-  gap-4
-  pb-4
-  snap-x
-  snap-mandatory
-  lg:grid lg:grid-cols-4 lg:gap-6
-">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyChooseUs.map((item, index) => (
               <motion.div
                 key={index}
