@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 //import { motion } from 'motion/react';
-import { Save, X, Plus, Trash2 } from 'lucide-react';
-import { usePackages } from '../contexts/PackageContext';
-import { Package } from '../data/packages';
-import { supabase } from '../../lib/supabase';
+import { Save, X, Plus, Trash2 } from "lucide-react";
+import { usePackages } from "../contexts/PackageContext";
+import { Package } from "../data/packages";
+import { supabase } from "../../lib/supabase";
 
 export const AdminPackageForm = () => {
   const navigate = useNavigate();
@@ -15,118 +15,137 @@ export const AdminPackageForm = () => {
   const isEdit = !!id;
 
   const [formData, setFormData] = useState<Package>({
-    id: '',
-    title: '',
-    category: 'International',
-    destination: '',
-    duration: '',
-    coverImage: '',
-    heroImage: '',
-    shortDescription: '',
-    highlights: [''],
-    inclusions: [''],
-    itinerary: [{ day: 1, title: '', description: '' }],
-   pricing: { standard:'', deluxe:'', premium:'' },
-    priceUnit: 'per person'
+    id: "",
+    title: "",
+    category: "International",
+    destination: "",
+    duration: "",
+    coverImage: "",
+    heroImage: "",
+    shortDescription: "",
+    highlights: [""],
+    inclusions: [""],
+    itinerary: [{ day: 1, title: "", description: "" }],
+    pricing: { standard: "", deluxe: "", premium: "" },
+    priceUnit: "per person",
   });
 
-  
-useEffect(() => {
-  const init = async () => {
+  useEffect(() => {
+    const init = async () => {
+      // auth check
+      const { data: authData } = await supabase.auth.getUser();
 
-    // auth check
-    const { data: authData } = await supabase.auth.getUser();
-
-    if (!authData.user) {
-      navigate("/admin/login");
-      return;
-    }
-
-    // edit mode
-    if (isEdit && id) {
-
-      const { data, error } = await supabase
-        .from("packages")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      console.log("FETCHED PACKAGE:", data);
-      console.log("FETCH ERROR:", error);
-
-      if (error || !data) {
-        window.location.href = "/admin/dashboard";
+      if (!authData.user) {
+        navigate("/admin/login");
         return;
       }
 
-      setFormData(data);
-    }
-  };
+      // edit mode
+      if (isEdit && id) {
+        const { data, error } = await supabase
+          .from("packages")
+          .select("*")
+          .eq("id", id)
+          .single();
 
-  init();
+        console.log("FETCHED PACKAGE:", data);
+        console.log("FETCH ERROR:", error);
 
-}, [id, isEdit, navigate]);
+        if (error || !data) {
+          window.location.href = "/admin/dashboard";
+          return;
+        }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        setFormData(data);
+      }
+    };
+
+    init();
+  }, [id, isEdit, navigate]);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePricingChange = (tier: 'standard' | 'deluxe' | 'premium', value: string) => {
-    setFormData(prev => ({
+  const handlePricingChange = (
+    tier: "standard" | "deluxe" | "premium",
+    value: string,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      pricing: { ...prev.pricing, [tier]: parseInt(value) || 0 }
+      pricing: { ...prev.pricing, [tier]: parseInt(value) || 0 },
     }));
   };
 
-  const handleArrayChange = (field: 'highlights' | 'inclusions', index: number, value: string) => {
-    setFormData(prev => ({
+  const handleArrayChange = (
+    field: "highlights" | "inclusions",
+    index: number,
+    value: string,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: prev[field].map((item, i) => i === index ? value : item)
+      [field]: prev[field].map((item, i) => (i === index ? value : item)),
     }));
   };
 
-  const addArrayItem = (field: 'highlights' | 'inclusions') => {
-    setFormData(prev => ({
+  const addArrayItem = (field: "highlights" | "inclusions") => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: [...prev[field], '']
+      [field]: [...prev[field], ""],
     }));
   };
 
-  const removeArrayItem = (field: 'highlights' | 'inclusions', index: number) => {
-    setFormData(prev => ({
+  const removeArrayItem = (
+    field: "highlights" | "inclusions",
+    index: number,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [field]: prev[field].filter((_, i) => i !== index)
+      [field]: prev[field].filter((_, i) => i !== index),
     }));
   };
 
-  const handleItineraryChange = (index: number, field: 'title' | 'description', value: string) => {
-    setFormData(prev => ({
+  const handleItineraryChange = (
+    index: number,
+    field: "title" | "description",
+    value: string,
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      itinerary: prev.itinerary.map((item, i) => 
-        i === index ? { ...item, [field]: value } : item
-      )
+      itinerary: prev.itinerary.map((item, i) =>
+        i === index ? { ...item, [field]: value } : item,
+      ),
     }));
   };
 
   const addItineraryDay = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      itinerary: [...prev.itinerary, { 
-        day: prev.itinerary.length + 1, 
-        title: '', 
-        description: '' 
-      }]
+      itinerary: [
+        ...prev.itinerary,
+        {
+          day: prev.itinerary.length + 1,
+          title: "",
+          description: "",
+        },
+      ],
     }));
   };
 
   const removeItineraryDay = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      itinerary: prev.itinerary.filter((_, i) => i !== index).map((item, i) => ({
-        ...item,
-        day: i + 1
-      }))
+      itinerary: prev.itinerary
+        .filter((_, i) => i !== index)
+        .map((item, i) => ({
+          ...item,
+          day: i + 1,
+        })),
     }));
   };
 
@@ -166,7 +185,7 @@ useEffect(() => {
   }));
 };*/
 
-/*
+  /*
 const handleImageUpload = async (
   e: React.ChangeEvent<HTMLInputElement>,
   field: "coverImage" | "heroImage"
@@ -210,141 +229,134 @@ const handleImageUpload = async (
 
 */
 
-const handleImageUpload = async (
-  e: React.ChangeEvent<HTMLInputElement>,
-  field: "coverImage" | "heroImage"
-) => {
-  const file = e.target.files?.[0];
+  const handleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "coverImage" | "heroImage",
+  ) => {
+    const file = e.target.files?.[0];
 
-  if (!file) return;
+    if (!file) return;
 
-  try {
-    setUploading(true);
+    try {
+      setUploading(true);
 
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
 
-    // Upload
-    const { error: uploadError } = await supabase.storage
-      .from("package-images")
-      .upload(fileName, file, {
-        cacheControl: "3600",
-        upsert: true,
-      });
+      // Upload
+      const { error: uploadError } = await supabase.storage
+        .from("package-images")
+        .upload(fileName, file, {
+          cacheControl: "3600",
+          upsert: true,
+        });
 
-    if (uploadError) {
-      console.error(uploadError);
-      alert(uploadError.message);
-      return;
-    }
+      if (uploadError) {
+        console.error(uploadError);
+        alert(uploadError.message);
+        return;
+      }
 
-    // Public URL
-    const { data } = supabase.storage
-      .from("package-images")
-      .getPublicUrl(fileName);
+      // Public URL
+      const { data } = supabase.storage
+        .from("package-images")
+        .getPublicUrl(fileName);
 
-    const imageUrl = data.publicUrl;
+      const imageUrl = data.publicUrl;
 
-    console.log("UPLOADED IMAGE:", imageUrl);
+      console.log("UPLOADED IMAGE:", imageUrl);
 
-    // Save in separate state
-    /*
+      // Save in separate state
+      /*
     if (field === "coverImage") {
       setCoverImageUrl(imageUrl);
     } else {
       setHeroImageUrl(imageUrl);
     }
 */
-    // ALSO update formData for preview
-    setFormData((prev) => ({
-      ...prev,
-      [field]: imageUrl,
-    }));
+      // ALSO update formData for preview
+      setFormData((prev) => ({
+        ...prev,
+        [field]: imageUrl,
+      }));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUploading(false);
+    }
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setUploading(false);
-  }
-};
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  try {
-    const packageData = {
-      ...formData,
-      pricing: {
-        standard: Number(formData.pricing.standard) || 0,
-        deluxe: Number(formData.pricing.deluxe) || 0,
-        premium: Number(formData.pricing.premium) || 0,
-      },
-    };
-
-    console.log("FINAL DATA:", packageData);
-
-    console.log("URL PARAM ID:", id);
-console.log("FORM DATA ID:", formData.id);
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-
-console.log("CURRENT USER:", user);
-
-    // =========================
-    // UPDATE
-    // =========================
-    if (isEdit) {
-
-      const { data, error } = await supabase
-        .from("packages")
-        .update(packageData)
-        .eq("id", id)
-        .select();
-
-     console.log("UPDATE DATA:", data);
-console.log("UPDATED ROW COUNT:", data?.length);
-console.log("UPDATE ERROR:", error);
-
-      if (error) {
-        alert(error.message);
-        console.error(error);
-        return;
-      }
-
-      alert("✅ Package updated successfully!");
-
-    } else {
-
-      // CREATE
-      const newPackage = {
-        ...packageData,
-        id: formData.title
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, "-"),
+    try {
+      const packageData = {
+        ...formData,
+        pricing: {
+          standard: Number(formData.pricing.standard) || 0,
+          deluxe: Number(formData.pricing.deluxe) || 0,
+          premium: Number(formData.pricing.premium) || 0,
+        },
       };
 
-      const { data, error } = await supabase
-        .from("packages")
-        .insert([newPackage])
-        .select();
+      console.log("FINAL DATA:", packageData);
 
-      console.log(data, error);
+      console.log("URL PARAM ID:", id);
+      console.log("FORM DATA ID:", formData.id);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      if (error) {
-        alert(error.message);
-        return;
+      console.log("CURRENT USER:", user);
+
+      // =========================
+      // UPDATE
+      // =========================
+      if (isEdit) {
+        const { data, error } = await supabase
+          .from("packages")
+          .update(packageData)
+          .eq("id", id)
+          .select();
+
+        console.log("UPDATE DATA:", data);
+        console.log("UPDATED ROW COUNT:", data?.length);
+        console.log("UPDATE ERROR:", error);
+
+        if (error) {
+          alert(error.message);
+          console.error(error);
+          return;
+        }
+
+        alert("✅ Package updated successfully!");
+      } else {
+        // CREATE
+        const newPackage = {
+          ...packageData,
+          id: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        };
+
+        const { data, error } = await supabase
+          .from("packages")
+          .insert([newPackage])
+          .select();
+
+        console.log(data, error);
+
+        if (error) {
+          alert(error.message);
+          return;
+        }
+
+        alert("✅ Package created successfully!");
       }
 
-      alert("✅ Package created successfully!");
+      navigate("/admin/dashboard");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Something went wrong");
     }
-
-    navigate("/admin/dashboard");
-
-  } catch (err) {
-    console.error(err);
-    alert("❌ Something went wrong");
-  }
-};
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
@@ -356,10 +368,10 @@ console.log("UPDATE ERROR:", error);
         >
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100">
-              {isEdit ? 'Edit Package' : 'Add New Package'}
+              {isEdit ? "Edit Package" : "Add New Package"}
             </h1>
             <button
-              onClick={() => navigate('/admin/dashboard')}
+              onClick={() => navigate("/admin/dashboard")}
               className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-lg transition-colors"
             >
               <X className="w-6 h-6" />
@@ -369,7 +381,9 @@ console.log("UPDATE ERROR:", error);
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Information */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">Basic Information</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">
+                Basic Information
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
@@ -444,82 +458,84 @@ console.log("UPDATE ERROR:", error);
                     className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
-                </div><div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                </div>
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Cover Image */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Cover Image *
+                    </label>
 
-  {/* Cover Image */}
-  <div>
-    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-      Cover Image *
-    </label>
+                    {/* Upload from computer */}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload(e, "coverImage")}
+                      className="w-full mb-2"
+                    />
 
-    {/* Upload from computer */}
-    <input
-      type="file"
-      accept="image/*"
-      onChange={(e) => handleImageUpload(e, "coverImage")}
-      className="w-full mb-2"
-    />
+                    {/* OR paste URL */}
+                    <input
+                      type="url"
+                      name="coverImage"
+                      value={formData.coverImage}
+                      onChange={handleChange}
+                      placeholder="Or paste image URL"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
+                    />
 
-    {/* OR paste URL */}
-    <input
-      type="url"
-      name="coverImage"
-      value={formData.coverImage}
-      onChange={handleChange}
-      placeholder="Or paste image URL"
-      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
-    />
+                    {/* Preview */}
+                    {formData.coverImage && (
+                      <img
+                        src={formData.coverImage}
+                        alt="Cover Preview"
+                        className="w-full h-52 object-cover rounded-lg mt-3 border"
+                      />
+                    )}
+                  </div>
 
-    {/* Preview */}
-    {formData.coverImage && (
-      <img
-        src={formData.coverImage}
-        alt="Cover Preview"
-        className="w-full h-52 object-cover rounded-lg mt-3 border"
-      />
-    )}
-  </div>
+                  {/* Hero Image */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
+                      Hero Image *
+                    </label>
 
-  {/* Hero Image */}
-  <div>
-    <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-      Hero Image *
-    </label>
+                    {/* Upload from computer */}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageUpload(e, "heroImage")}
+                      className="w-full mb-2"
+                    />
 
-    {/* Upload from computer */}
-    <input
-      type="file"
-      accept="image/*"
-      onChange={(e) => handleImageUpload(e, "heroImage")}
-      className="w-full mb-2"
-    />
+                    {/* OR paste URL */}
+                    <input
+                      type="url"
+                      name="heroImage"
+                      value={formData.heroImage}
+                      onChange={handleChange}
+                      placeholder="Or paste image URL"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
+                    />
 
-    {/* OR paste URL */}
-    <input
-      type="url"
-      name="heroImage"
-      value={formData.heroImage}
-      onChange={handleChange}
-      placeholder="Or paste image URL"
-      className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
-    />
-
-    {/* Preview */}
-    {formData.heroImage && (
-      <img
-        src={formData.heroImage}
-        alt="Hero Preview"
-        className="w-full h-52 object-cover rounded-lg mt-3 border"
-      />
-    )}
-  </div>
-</div>
-</div>
-</div>
+                    {/* Preview */}
+                    {formData.heroImage && (
+                      <img
+                        src={formData.heroImage}
+                        alt="Hero Preview"
+                        className="w-full h-52 object-cover rounded-lg mt-3 border"
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* Pricing */}
             <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">Pricing</h2>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">
+                Pricing
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
@@ -527,10 +543,12 @@ console.log("UPDATE ERROR:", error);
                   </label>
                   <input
                     type="text"
-                  min="0"
-                  step="1"
+                    min="0"
+                    step="1"
                     value={formData.pricing.standard}
-                    onChange={(e) => handlePricingChange('standard', e.target.value)}
+                    onChange={(e) =>
+                      handlePricingChange("standard", e.target.value)
+                    }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
@@ -542,10 +560,12 @@ console.log("UPDATE ERROR:", error);
                   </label>
                   <input
                     type="text"
-  min="0"
-  step="1"
+                    min="0"
+                    step="1"
                     value={formData.pricing.deluxe}
-                    onChange={(e) => handlePricingChange('deluxe', e.target.value)}
+                    onChange={(e) =>
+                      handlePricingChange("deluxe", e.target.value)
+                    }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
@@ -557,10 +577,12 @@ console.log("UPDATE ERROR:", error);
                   </label>
                   <input
                     type="text"
-  min="0"
-  step="1"
+                    min="0"
+                    step="1"
                     value={formData.pricing.premium}
-                    onChange={(e) => handlePricingChange('premium', e.target.value)}
+                    onChange={(e) =>
+                      handlePricingChange("premium", e.target.value)
+                    }
                     className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100"
                     required
                   />
@@ -582,7 +604,7 @@ console.log("UPDATE ERROR:", error);
                 </div>
               </div>
             </div>
-                    {/* Highlights */}
+            {/* Highlights */}
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
@@ -591,7 +613,7 @@ console.log("UPDATE ERROR:", error);
 
                 <button
                   type="button"
-                  onClick={() => addArrayItem('highlights')}
+                  onClick={() => addArrayItem("highlights")}
                   className="flex items-center space-x-1 text-orange-500 hover:text-orange-600"
                 >
                   <Plus className="w-4 h-4" />
@@ -606,7 +628,7 @@ console.log("UPDATE ERROR:", error);
                       type="text"
                       value={highlight}
                       onChange={(e) =>
-                        handleArrayChange('highlights', index, e.target.value)
+                        handleArrayChange("highlights", index, e.target.value)
                       }
                       placeholder={`Highlight ${index + 1}`}
                       className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
@@ -615,7 +637,7 @@ console.log("UPDATE ERROR:", error);
                     {formData.highlights.length > 1 && (
                       <button
                         type="button"
-                        onClick={() => removeArrayItem('highlights', index)}
+                        onClick={() => removeArrayItem("highlights", index)}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -629,10 +651,12 @@ console.log("UPDATE ERROR:", error);
             {/* Inclusions */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">Inclusions</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
+                  Inclusions
+                </h2>
                 <button
                   type="button"
-                  onClick={() => addArrayItem('inclusions')}
+                  onClick={() => addArrayItem("inclusions")}
                   className="flex items-center space-x-1 text-orange-500 hover:text-orange-600"
                 >
                   <Plus className="w-4 h-4" />
@@ -645,14 +669,16 @@ console.log("UPDATE ERROR:", error);
                     <input
                       type="text"
                       value={inclusion}
-                      onChange={(e) => handleArrayChange('inclusions', index, e.target.value)}
+                      onChange={(e) =>
+                        handleArrayChange("inclusions", index, e.target.value)
+                      }
                       placeholder={`Inclusion ${index + 1}`}
                       className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                     />
                     {formData.inclusions.length > 1 && (
                       <button
                         type="button"
-                        onClick={() => removeArrayItem('inclusions', index)}
+                        onClick={() => removeArrayItem("inclusions", index)}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -666,7 +692,9 @@ console.log("UPDATE ERROR:", error);
             {/* Itinerary */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">Itinerary</h2>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-slate-100">
+                  Itinerary
+                </h2>
                 <button
                   type="button"
                   onClick={addItineraryDay}
@@ -678,9 +706,14 @@ console.log("UPDATE ERROR:", error);
               </div>
               <div className="space-y-4">
                 {formData.itinerary.map((day, index) => (
-                  <div key={index} className="p-4 border border-gray-200 dark:border-slate-600 rounded-lg dark:bg-slate-750">
+                  <div
+                    key={index}
+                    className="p-4 border border-gray-200 dark:border-slate-600 rounded-lg dark:bg-slate-750"
+                  >
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-gray-900 dark:text-slate-100">Day {day.day}</h3>
+                      <h3 className="font-semibold text-gray-900 dark:text-slate-100">
+                        Day {day.day}
+                      </h3>
                       {formData.itinerary.length > 1 && (
                         <button
                           type="button"
@@ -695,13 +728,21 @@ console.log("UPDATE ERROR:", error);
                       <input
                         type="text"
                         value={day.title}
-                        onChange={(e) => handleItineraryChange(index, 'title', e.target.value)}
+                        onChange={(e) =>
+                          handleItineraryChange(index, "title", e.target.value)
+                        }
                         placeholder="Day title"
                         className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
                       />
                       <textarea
                         value={day.description}
-                        onChange={(e) => handleItineraryChange(index, 'description', e.target.value)}
+                        onChange={(e) =>
+                          handleItineraryChange(
+                            index,
+                            "description",
+                            e.target.value,
+                          )
+                        }
                         placeholder="Day description"
                         rows={3}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-400"
@@ -717,7 +758,7 @@ console.log("UPDATE ERROR:", error);
               <button
                 type="button"
                 disabled={uploading}
-                onClick={() => navigate('/admin/dashboard')}
+                onClick={() => navigate("/admin/dashboard")}
                 className="px-6 py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
               >
                 Cancel
@@ -729,12 +770,12 @@ console.log("UPDATE ERROR:", error);
               >
                 <Save className="w-4 h-4" />
                 <span>
-  {uploading
-    ? "Uploading..."
-    : isEdit
-    ? "Update Package"
-    : "Create Package"}
-</span>
+                  {uploading
+                    ? "Uploading..."
+                    : isEdit
+                      ? "Update Package"
+                      : "Create Package"}
+                </span>
               </button>
             </div>
           </form>

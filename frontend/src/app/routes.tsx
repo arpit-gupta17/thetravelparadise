@@ -1,19 +1,54 @@
-import { createBrowserRouter } from "react-router-dom";
-import { Home } from "./pages/Home";
-import { Packages } from "./pages/Packages";
-import { PackageDetail } from "./pages/PackageDetail";
-import { About } from "./pages/About";
-import { Contact } from "./pages/Contact";
-import { Founder } from "./pages/Founder";
-import { NotFound } from "./pages/NotFound";
-import { Layout } from "./components/Layout";
-import { AdminLogin } from "./pages/AdminLogin";
-import { AdminDashboard } from "./pages/AdminDashboard";
-import { AdminPackageForm } from "./pages/AdminPackageForm";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { PackageProvider } from "./contexts/PackageContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { Outlet } from "react-router-dom";
+import { Layout } from "./components/Layout";
 
+// Eagerly load Home for best LCP
+import { Home } from "./pages/Home";
+
+// Lazy load the rest to improve Performance Score
+const Packages = lazy(() =>
+  import("./pages/Packages").then((module) => ({ default: module.Packages })),
+);
+const PackageDetail = lazy(() =>
+  import("./pages/PackageDetail").then((module) => ({
+    default: module.PackageDetail,
+  })),
+);
+const About = lazy(() =>
+  import("./pages/About").then((module) => ({ default: module.About })),
+);
+const Contact = lazy(() =>
+  import("./pages/Contact").then((module) => ({ default: module.Contact })),
+);
+const Founder = lazy(() =>
+  import("./pages/Founder").then((module) => ({ default: module.Founder })),
+);
+const NotFound = lazy(() =>
+  import("./pages/NotFound").then((module) => ({ default: module.NotFound })),
+);
+const AdminLogin = lazy(() =>
+  import("./pages/AdminLogin").then((module) => ({
+    default: module.AdminLogin,
+  })),
+);
+const AdminDashboard = lazy(() =>
+  import("./pages/AdminDashboard").then((module) => ({
+    default: module.AdminDashboard,
+  })),
+);
+const AdminPackageForm = lazy(() =>
+  import("./pages/AdminPackageForm").then((module) => ({
+    default: module.AdminPackageForm,
+  })),
+);
+
+const LoadingScreen = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
+    <div className="w-12 h-12 border-4 border-[var(--brand-orange-red)] border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 export const router = createBrowserRouter([
   {
@@ -25,117 +60,99 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Home /> },
-      { path: "packages", element: <Packages /> },
-      { path: "packages/:id", element: <PackageDetail /> },
-      { path: "about", element: <About /> },
-      { path: "contact", element: <Contact /> },
-      { path: "founder", element: <Founder /> },
+      {
+        path: "packages",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <Packages />
+          </Suspense>
+        ),
+      },
+      {
+        path: "packages/:id",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <PackageDetail />
+          </Suspense>
+        ),
+      },
+      {
+        path: "about",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <Contact />
+          </Suspense>
+        ),
+      },
+      {
+        path: "founder",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <Founder />
+          </Suspense>
+        ),
+      },
 
-      // ✅ ADMIN ROUTES
-     {
-  path: "admin",
-  element: (
-    <ProtectedRoute>
-      <Outlet />
-    </ProtectedRoute>
-  ),
-  children: [
-    { path: "dashboard", element: <AdminDashboard /> },
-    { path: "package/new", element: <AdminPackageForm /> },
-    { path: "package/edit/:id", element: <AdminPackageForm /> },
-  ],
-},
-{ path: "admin/login", element: <AdminLogin /> },
+      // ADMIN ROUTES
+      {
+        path: "admin",
+        element: (
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: "dashboard",
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <AdminDashboard />
+              </Suspense>
+            ),
+          },
+          {
+            path: "package/new",
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <AdminPackageForm />
+              </Suspense>
+            ),
+          },
+          {
+            path: "package/edit/:id",
+            element: (
+              <Suspense fallback={<LoadingScreen />}>
+                <AdminPackageForm />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+      {
+        path: "admin/login",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <AdminLogin />
+          </Suspense>
+        ),
+      },
 
-      { path: "*", element: <NotFound /> },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <NotFound />
+          </Suspense>
+        ),
+      },
     ],
   },
 ]);
-
-/*
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <PackageProvider>
-        <Layout />
-      </PackageProvider>
-    ),
-    children: [
-      { index: true, element: <Home /> },
-      { path: "packages", Component: Packages },
-      { path: "packages/:id", Component: PackageDetail },
-      { path: "about", Component: About },
-      { path: "contact", Component: Contact },
-      { path: "founder", Component: Founder },
-      { path: "*", Component: NotFound },
-    ],
-    path: "/admin",
-    children: [
-      { path: "login", Component: AdminLogin },
-      { path: "dashboard", Component: AdminDashboard },
-      { path: "package/new", Component: AdminPackageForm },
-      { path: "package/edit/:id", Component: AdminPackageForm },
-    ],
-  },
-]);
-
-*/
-
-/*
-
-export const router = createBrowserRouter([
-  {path: "/",
-    element: (
-      <PackageProvider>
-        <Layout />
-      </PackageProvider>
-    ),
-    children: [
-      { index: true, element: <Home /> },
-      { path: "packages", Component: Packages },
-      { path: "packages/:id", Component: PackageDetail },
-      { path: "about", Component: About },
-      { path: "contact", Component: Contact },
-      { path: "founder", Component: Founder },
-      { path: "*", Component: NotFound },
-    ],
-
-  },
-  {
-    path: "/admin",
-    children: [
-      { path: "login", Component: AdminLogin },
-      { path: "dashboard", Component: AdminDashboard },
-      { path: "package/new", Component: AdminPackageForm },
-      { path: "package/edit/:id", Component: AdminPackageForm },
-    ],
-  },
-]);*/
-/*
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <PackageProvider>
-        <Layout />
-      </PackageProvider>
-    ),
-    children: [
-      { index: true, element: <Home /> },
-      { path: "packages", Component: Packages },
-      { path: "packages/:id", Component: PackageDetail },
-      { path: "about", Component: About },
-      { path: "contact", Component: Contact },
-      { path: "founder", Component: Founder },
-
-      // ✅ MOVE ADMIN HERE
-      { path: "admin/login", Component: AdminLogin },
-      { path: "admin/dashboard", Component: AdminDashboard },
-      { path: "admin/package/new", Component: AdminPackageForm },
-      { path: "admin/package/edit/:id", Component: AdminPackageForm },
-
-      { path: "*", Component: NotFound },
-    ],
-  },
-]);*/

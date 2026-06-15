@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
-import { Instagram, Linkedin, Twitter, MapPin, Mail, Phone, Shield } from 'lucide-react';
-import { XIcon } from './XIcon';
+import { Link } from "react-router-dom";
+import {
+  Instagram,
+  Linkedin,
+  Twitter,
+  MapPin,
+  Mail,
+  Phone,
+  Shield,
+} from "lucide-react";
+import { XIcon } from "./XIcon";
 import logoImage from "../../assets/images/logo.png";
-import { supabase } from '../../lib/supabase';
+import { supabase } from "../../lib/supabase";
 
-const WHATSAPP_NUMBER = '919166284373';
+const WHATSAPP_NUMBER = "919166284373";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function Footer() {
-
   // ✅ State at top level
   const [packages, setPackages] = useState<any[]>([]);
 
   // ✅ Fetch from Supabase
   useEffect(() => {
     const fetchPackages = async () => {
-      const { data, error } = await supabase
-        .from("packages")
-        .select("*");
+      const { data, error } = await supabase.from("packages").select("*");
 
       if (error) {
         console.error("Footer packages error:", error);
@@ -50,18 +55,33 @@ export function Footer() {
   })();*/
 
   const quickLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Packages', path: '/packages' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Contact Us', path: '/contact' },
-    { name: 'Meet our Team', path: '/founder' },
+    { name: "Home", path: "/" },
+    { name: "Packages", path: "/packages" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact Us", path: "/contact" },
+    { name: "Meet our Team", path: "/founder" },
   ];
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/thetravelparadise.co', label: 'Instagram', color: '#E1306C' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/the-travel-paradise-475a41360', label: 'LinkedIn', color: '#0077B5' },
-    { icon: XIcon, href: 'https://twitter.com/TravelPara56674', label: 'X', color: '#000000' },
-    { icon: Phone, href: WHATSAPP_URL, label: 'WhatsApp', color: '#25D366' },
+    {
+      icon: Instagram,
+      href: "https://instagram.com/thetravelparadise.co",
+      label: "Instagram",
+      color: "#E1306C",
+    },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/the-travel-paradise-475a41360",
+      label: "LinkedIn",
+      color: "#0077B5",
+    },
+    {
+      icon: XIcon,
+      href: "https://twitter.com/TravelPara56674",
+      label: "X",
+      color: "#000000",
+    },
+    { icon: Phone, href: WHATSAPP_URL, label: "WhatsApp", color: "#25D366" },
   ];
 
   return (
@@ -71,21 +91,30 @@ export function Footer() {
           {/* Brand Column */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img 
-                src={logoImage} 
-                alt="The Travel Paradise Logo" 
+              <img
+                src={logoImage}
+                alt="The Travel Paradise Logo"
                 className="h-16 w-auto"
               />
             </div>
             <p className="text-white/70 font-[var(--font-nunito)] text-[14px] leading-relaxed">
-              Premier tour and travel company based in Kota, offering curated travel experiences across India and Southeast Asia Established in 2024.
+              Premier tour and travel company based in Kota, offering curated
+              travel experiences across India and Southeast Asia Established in
+              2024.
             </p>
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 w-fit">
               <div className="flex">
                 {[...Array(4)].map((_, i) => (
-                  <span key={i} className="text-[var(--brand-warm-amber)] text-[16px]">★</span>
+                  <span
+                    key={i}
+                    className="text-[var(--brand-warm-amber)] text-[16px]"
+                  >
+                    ★
+                  </span>
                 ))}
-                <span className="text-[var(--brand-warm-amber)] text-[16px]">☆</span>
+                <span className="text-[var(--brand-warm-amber)] text-[16px]">
+                  ☆
+                </span>
               </div>
               <span className="text-[14px] font-[var(--font-nunito)] font-[700] text-[var(--brand-warm-amber)]">
                 4.9/5 • 1.5K+ Travelers
@@ -127,7 +156,6 @@ export function Footer() {
               ))}
             </ul>
           </div>
-  
 
           {/* Get in Touch */}
           <div className="space-y-4">
@@ -143,8 +171,12 @@ export function Footer() {
                   <Phone className="w-5 h-5 text-[var(--brand-orange-red)]" />
                 </div>
                 <div>
-                  <div className="font-[var(--font-nunito)] text-[12px] text-white/50">Phone</div>
-                  <div className="font-[var(--font-nunito)] font-[600] text-[14px]">+91 9166284373</div>
+                  <div className="font-[var(--font-nunito)] text-[12px] text-white/50">
+                    Phone
+                  </div>
+                  <div className="font-[var(--font-nunito)] font-[600] text-[14px]">
+                    +91 9166284373
+                  </div>
                 </div>
               </a>
 
@@ -156,7 +188,9 @@ export function Footer() {
                   <Mail className="w-5 h-5 text-[var(--brand-deep-cyan)]" />
                 </div>
                 <div>
-                  <div className="font-[var(--font-nunito)] text-[12px] text-white/50">Email</div>
+                  <div className="font-[var(--font-nunito)] text-[12px] text-white/50">
+                    Email
+                  </div>
                   <div className="font-[var(--font-nunito)] font-[600] text-[13px] break-all">
                     thetravelparadise.info@gmail.com
                   </div>
@@ -168,8 +202,12 @@ export function Footer() {
                   <MapPin className="w-5 h-5 text-[var(--brand-warm-amber)]" />
                 </div>
                 <div>
-                  <div className="font-[var(--font-nunito)] text-[12px] text-white/50">Location</div>
-                  <div className="font-[var(--font-nunito)] font-[600] text-[14px]">Kota, Rajasthan</div>
+                  <div className="font-[var(--font-nunito)] text-[12px] text-white/50">
+                    Location
+                  </div>
+                  <div className="font-[var(--font-nunito)] font-[600] text-[14px]">
+                    Kota, Rajasthan
+                  </div>
                 </div>
               </div>
             </div>
@@ -195,11 +233,12 @@ export function Footer() {
       </div>
 
       {/* Copyright */}
-     <div className="bg-black/30 py-4">
+      <div className="bg-black/30 py-4">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <p className="text-white/60 font-[var(--font-nunito)] text-[13px]">
-              © {new Date().getFullYear()} The Travel Paradise. All rights reserved. Established in 2024
+              © {new Date().getFullYear()} The Travel Paradise. All rights
+              reserved. Established in 2024
             </p>
             <Link
               to="/admin/login"

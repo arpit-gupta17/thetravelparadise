@@ -1,13 +1,12 @@
-import { Outlet } from 'react-router-dom';
-import { Navbar } from './Navbar';
-import { Footer } from './Footer';
-import { Toaster } from './ui/sonner';
+import { Outlet } from "react-router-dom";
+import { Navbar } from "./Navbar";
+import { Footer } from "./Footer";
+import { Toaster } from "./ui/sonner";
 import ScrollToTop from "./scrolltoTop";
 
 export function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
-
       <ScrollToTop />
 
       <Navbar />
