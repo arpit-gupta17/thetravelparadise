@@ -33,6 +33,7 @@ export function Home() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [selectedDescPkg, setSelectedDescPkg] = useState<any>(null);
 
+
   // ✅ FIX 2: useMemo to avoid recalculation + prevent crash
   const destinationInfo = useMemo(() => {
     return Object.values(
@@ -158,23 +159,23 @@ export function Home() {
       <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
         {/* Video Background or Fallback */}
 
+        {/* YouTube Video Background — scaled 150% to push YouTube UI off-screen on mobile */}
         <div className="absolute inset-0 overflow-hidden">
           <iframe
-            src="https://www.youtube.com/embed/WI2XmzGbf-g?autoplay=1&mute=1&loop=1&playlist=WI2XmzGbf-g&controls=0&modestbranding=1&rel=0"
-            title="Travel Paradise Hero Video"
-            className="absolute top-1/2 left-1/2 w-[300%] h-full md:w-[177.78vh] md:h-[56.25vw] min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-            frameBorder="0"
-            loading="lazy"
+            src="https://www.youtube.com/embed/WI2XmzGbf-g?autoplay=1&mute=1&loop=1&playlist=WI2XmzGbf-g&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&fs=0&iv_load_policy=3"
+            title="Hero Background Video"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none border-0"
+            style={{ width: 'max(150vw, 266vh)', height: 'max(84.3vw, 150vh)' }}
             allow="autoplay; encrypted-media"
-            allowFullScreen
           />
         </div>
 
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/20"></div>
+        {/* Dark Overlay — reduced to 10% for better visibility */}
+        <div className="absolute inset-0 bg-black/10 z-[1]"></div>
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/50 to-black/85" />
+        {/* Gradient Overlay — transparent at top, darker at bottom for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60 z-[1]" />
+
 
         {/* Hero Content */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
@@ -511,9 +512,23 @@ export function Home() {
                           <h3 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors line-clamp-2">
                             {pkg.title}
                           </h3>
-                          <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)] mb-3 line-clamp-3 leading-relaxed flex-grow">
-                            {pkg.shortDescription}
-                          </p>
+                          <div className="flex-grow flex flex-col">
+                            <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)] mb-2 line-clamp-4 leading-relaxed">
+                              {pkg.shortDescription}
+                            </p>
+                            {pkg.shortDescription?.length > 120 && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setSelectedDescPkg(pkg);
+                                }}
+                                className="text-[var(--brand-orange-red)] text-[13px] font-[800] hover:underline mt-1 inline-flex items-center gap-1 transition-all"
+                              >
+                                Read More <ArrowRight className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
                           <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-slate-800">
                             <div>
                               <span className="block font-[var(--font-nunito)] text-[11px] text-[var(--text-muted)]">
@@ -576,9 +591,23 @@ export function Home() {
                           <h3 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors line-clamp-2">
                             {pkg.title}
                           </h3>
-                          <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)] mb-3 line-clamp-3 leading-relaxed flex-grow">
-                            {pkg.shortDescription}
-                          </p>
+                          <div className="flex-grow flex flex-col">
+                            <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)] mb-2 line-clamp-4 leading-relaxed">
+                              {pkg.shortDescription}
+                            </p>
+                            {pkg.shortDescription?.length > 120 && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setSelectedDescPkg(pkg);
+                                }}
+                                className="text-[var(--brand-orange-red)] text-[13px] font-[800] hover:underline mt-1 inline-flex items-center gap-1 transition-all"
+                              >
+                                Read More <ArrowRight className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
                           <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-slate-800">
                             <div>
                               <span className="block font-[var(--font-nunito)] text-[11px] text-[var(--text-muted)]">
