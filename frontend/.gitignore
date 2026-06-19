@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-node_modules
-=======
+
 # dependencies
 node_modules
 
@@ -30,5 +28,3 @@ Thumbs.db
 
 
 frontend/public/video/hero.MP4
-frontend/public/video/hero.mp4
->>>>>>> 48e1eeb69a32842b60b883f773da01f58dc2c626

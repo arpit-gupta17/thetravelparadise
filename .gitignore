@@ -1,6 +1,5 @@
 # dependencies
 node_modules
-node_modules
 
 # env files (VERY IMPORTANT)
 .env
@@ -25,4 +24,6 @@ Thumbs.db
 # markdown (optional if sensitive)
 *.md
 
-
+# large video files
+public/video/hero.MP4
+public/video/hero.mp4
