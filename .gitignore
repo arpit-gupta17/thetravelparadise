@@ -1,5 +1,6 @@
 # dependencies
 node_modules
+node_modules
 
 # env files (VERY IMPORTANT)
 .env
@@ -25,6 +26,3 @@ Thumbs.db
 *.md
 
 
-
-frontend/public/video/hero.MP4
-frontend/public/video/hero.mp4

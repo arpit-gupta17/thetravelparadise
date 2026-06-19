@@ -23,7 +23,7 @@ import banner2 from "../../assets/images/banner1.png";
 
 const WHATSAPP_NUMBER = "919166284373";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-const DRIVE_VIDEO_ID = "1DZa8NIqu8HKDg9dydx72gtB21J0yd1-6";
+const DRIVE_VIDEO_ID = "15F6xj8DOIERcRMFWofu9Fl7Kii6dk9kd";
 
 export function Home() {
   const { packages } = usePackages();
@@ -152,23 +152,26 @@ export function Home() {
     Uttarakhand: "🇮🇳",
     Vietnam: "🇻🇳",
   };
+return (
+  <div className="w-full">
+    <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
+<div className="absolute inset-0 overflow-hidden">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
+    style={{
+      width: "max(150vw, 266vh)",
+      height: "max(84.3vw, 150vh)",
+    }}
+  >
+    <source src="/video/hero.MP4" type="video/MP4" />
+  </video>
+</div>
 
-  return (
-    <div className="w-full">
-      {/* Hero Section with YouTube Video Background */}
-      <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
-        {/* Video Background or Fallback */}
-
-        {/* YouTube Video Background — scaled 150% to push YouTube UI off-screen on mobile */}
-        <div className="absolute inset-0 overflow-hidden">
-          <iframe
-            src="https://www.youtube.com/embed/WI2XmzGbf-g?autoplay=1&mute=1&loop=1&playlist=WI2XmzGbf-g&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&fs=0&iv_load_policy=3"
-            title="Hero Background Video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none border-0"
-            style={{ width: 'max(150vw, 266vh)', height: 'max(84.3vw, 150vh)' }}
-            allow="autoplay; encrypted-media"
-          />
-        </div>
 
         {/* Dark Overlay — reduced to 10% for better visibility */}
         <div className="absolute inset-0 bg-black/10 z-[1]"></div>
