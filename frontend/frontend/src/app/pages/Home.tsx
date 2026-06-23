@@ -1,12 +1,19 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useEffect, useState, useRef, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 //import { motion } from 'motion/react';
-import { ChevronDown, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-react';
+import {
+  ChevronDown,
+  Instagram,
+  Linkedin,
+  Twitter,
+  ArrowRight,
+  X,
+} from "lucide-react";
 //import { packages, getDestinationInfo } from '../data/packages';
 import logoImage from "../../assets/images/logo.png";
 import { usePackages } from "../contexts/PackageContext";
-import { supabase } from '../../lib/supabase';
+import { supabase } from "../../lib/supabase";
 import shivaniImg from "../../assets/reviews/shivani.jpg";
 import asmitaImg from "../../assets/reviews/asmita.jpg";
 import shreyaImg from "../../assets/reviews/shreya.jpg";
@@ -14,19 +21,18 @@ import anshulImg from "../../assets/reviews/anshul.jpg";
 import banner1 from "../../assets/images/banner2.png";
 import banner2 from "../../assets/images/banner1.png";
 
-
-const WHATSAPP_NUMBER = '919166284373';
+const WHATSAPP_NUMBER = "919166284373";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-//const DRIVE_VIDEO_ID  = '1DZa8NIqu8HKDg9dydx72gtB21J0yd1-6';
-
+const DRIVE_VIDEO_ID = "15F6xj8DOIERcRMFWofu9Fl7Kii6dk9kd";
 
 export function Home() {
-
   const { packages } = usePackages();
 
   // ✅ FIX 1: Declare state FIRST
- 
+
   const [reviews, setReviews] = useState<any[]>([]);
+  const [selectedDescPkg, setSelectedDescPkg] = useState<any>(null);
+
 
   // ✅ FIX 2: useMemo to avoid recalculation + prevent crash
   const destinationInfo = useMemo(() => {
@@ -36,132 +42,143 @@ export function Home() {
           acc[pkg.destination] = {
             name: pkg.destination,
             count: 1,
+            image:
+              pkg.coverImage ||
+              pkg.images?.[0] ||
+              pkg.image ||
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+            type: ["Domestic", "Pilgrimage"].includes(pkg.category)
+              ? "Domestic"
+              : "International",
           };
         } else {
           acc[pkg.destination].count++;
         }
         return acc;
-      }, {})
+      }, {}),
     );
   }, [packages]);
 
+  const domesticDestinations = destinationInfo.filter(
+    (d: any) => d.type === "Domestic",
+  );
+  const internationalDestinations = destinationInfo.filter(
+    (d: any) => d.type === "International",
+  );
+
   const featuredPackages = packages.slice(0, 6);
-const reviewImages: any = {
-  Shivani: shivaniImg,
-  Asmita: asmitaImg,
-  Shreya: shreyaImg,
-  Anshul: anshulImg,
-};
+  const domesticFeatured = packages
+    .filter((pkg: any) => ["Domestic", "Pilgrimage"].includes(pkg.category))
+    .slice(0, 6);
+  const internationalFeatured = packages
+    .filter((pkg: any) => !["Domestic", "Pilgrimage"].includes(pkg.category))
+    .slice(0, 6);
+  const reviewImages: any = {
+    Shivani: shivaniImg,
+    Asmita: asmitaImg,
+    Shreya: shreyaImg,
+    Anshul: anshulImg,
+  };
 
   const whyChooseUs = [
     {
-      title: 'Safe & Trusted',
-      description: 'Verified travel experts with 1.5K+ happy travelers',
-      bg: 'bg-[#fff8f4]',
-      icon: '🛡️'
+      title: "Safe & Trusted",
+      description: "Verified travel experts with 1.5K+ happy travelers",
+      bg: "bg-[#fff8f4]",
+      icon: "🛡️",
     },
     {
-      title: 'Best Value',
-      description: 'Competitive prices with premium experiences',
-      bg: 'bg-[#f0fbff]',
-      icon: '💎'
+      title: "Best Value",
+      description: "Competitive prices with premium experiences",
+      bg: "bg-[#f0fbff]",
+      icon: "💎",
     },
     {
-      title: '24/7 Support',
-      description: 'Round-the-clock assistance for your journey',
-      bg: 'bg-[#fff8f4]',
-      icon: '🌟'
+      title: "24/7 Support",
+      description: "Round-the-clock assistance for your journey",
+      bg: "bg-[#fff8f4]",
+      icon: "🌟",
     },
     {
-      title: 'Customizable',
-      description: 'Tailor-made packages to suit your preferences',
-      bg: 'bg-[#f0fbff]',
-      icon: '✨'
+      title: "Customizable",
+      description: "Tailor-made packages to suit your preferences",
+      bg: "bg-[#f0fbff]",
+      icon: "✨",
     },
   ];
 
-  /*
 
- useEffect(() => {
-  const fetchReviews = async () => {
-    const { data, error } = await supabase
-      .from("reviews")
-      .select("*");
+  useEffect(() => {
+    const stored = localStorage.getItem("reviews");
 
-    if (error) {
-      console.error("Reviews error:", error);
+    if (stored) {
+      setReviews(JSON.parse(stored));
     } else {
-      setReviews(data || []);
+      const data = [
+        {
+          name: "Shivani",
+          rating: 5,
+          comment:
+            "2 days, countless memories in Manali. From scenic views to seamless travel, everything was handled effortlessly. No stress, just pure enjoyment with friends. Kudos to The Travel Paradise for turning a short trip into a perfect experience. Definitely traveling with them again.",
+        },
+        {
+          name: "Asmita",
+          rating: 5,
+          comment:
+            "Had a great trip to McLeod Ganj with my friend! As two girls traveling, safety and comfort were really important to us, and the cab service was perfectly managed, smooth, reliable, and completely stress-free. Highly recommend for safe and comfortable travel!",
+        },
+        {
+          name: "Shreya",
+          rating: 5,
+          comment:
+            "4 days, countless memories. Big thanks to Travel Paradise for a smooth, well-planned Uttarakhand trip—beautiful views, zero stress, and pure good vibes. Definitely worth it!",
+        },
+        {
+          name: "Anshul",
+          rating: 5,
+          comment:
+            "Our 6-day Thailand trip with Travel Paradise was an exceptional experience. From airport assistance to hotel accommodations and sightseeing, every detail was handled with professionalism and care. The itinerary was well-structured, ensuring a perfect balance of exploration and relaxation. The journey was seamless, comfortable, and truly memorable for our family.",
+        },
+      ];
+
+      localStorage.setItem("reviews", JSON.stringify(data));
+      setReviews(data);
     }
-  };
-
-  fetchReviews();
-}, []);
-*/
-useEffect(() => {
-  const stored = localStorage.getItem("reviews");
-
-  if (stored) {
-    setReviews(JSON.parse(stored));
-  } else {
-    const data = [
-      {
-        name: "Shivani",
-        rating: 5,
-        comment:
-          "2 days, countless memories in Manali. From scenic views to seamless travel, everything was handled effortlessly. No stress, just pure enjoyment with friends. Kudos to The Travel Paradise for turning a short trip into a perfect experience. Definitely traveling with them again.",
-      },
-      {
-        name: "Asmita",
-        rating: 5,
-        comment:
-          "Had a great trip to McLeod Ganj with my friend! As two girls traveling, safety and comfort were really important to us, and the cab service was perfectly managed, smooth, reliable, and completely stress-free. Highly recommend for safe and comfortable travel!",
-      },
-      {
-        name: "Shreya",
-        rating: 5,
-        comment:
-          "4 days, countless memories. Big thanks to Travel Paradise for a smooth, well-planned Uttarakhand trip—beautiful views, zero stress, and pure good vibes. Definitely worth it!",
-      },
-      {
-        name: "Anshul",
-        rating: 5,
-        comment:
-          "Our 6-day Thailand trip with Travel Paradise was an exceptional experience. From airport assistance to hotel accommodations and sightseeing, every detail was handled with professionalism and care. The itinerary was well-structured, ensuring a perfect balance of exploration and relaxation. The journey was seamless, comfortable, and truly memorable for our family.",
-      },
-    ];
-
-    localStorage.setItem("reviews", JSON.stringify(data));
-    setReviews(data);
-  }
-}, []);
+  }, []);
 
   const destinationEmojis: Record<string, string> = {
-    'Thailand': '🇹🇭',
-    'Rajasthan': '🇮🇳',
-    'Uttarakhand': '🇮🇳',
-    'Vietnam': '🇻🇳'
+    Thailand: "🇹🇭",
+    Rajasthan: "🇮🇳",
+    Uttarakhand: "🇮🇳",
+    Vietnam: "🇻🇳",
   };
+return (
+  <div className="w-full">
+    <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
+<div className="absolute inset-0 overflow-hidden">
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="auto"
+    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-cover"
+    style={{
+      width: "max(150vw, 266vh)",
+      height: "max(84.3vw, 150vh)",
+    }}
+  >
+    <source src="/video/hero.MP4" type="video/MP4" />
+  </video>
+</div>
 
 
+        {/* Dark Overlay — reduced to 10% for better visibility */}
+        <div className="absolute inset-0 bg-black/10 z-[1]"></div>
 
-  return (
-    <div className="w-full">
-      {/* Hero Section with YouTube Video Background */}
-      <section className="relative w-full min-h-screen overflow-hidden bg-[var(--text-primary)]">
-        {/* Video Background or Fallback */}
-     <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  className="absolute inset-0 w-full h-full object-cover"
->
-  <source src="/video/hero.MP4" type="video/mp4" />
-</video>
+        {/* Gradient Overlay — transparent at top, darker at bottom for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60 z-[1]" />
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/50 to-black/85" />
 
         {/* Hero Content */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
@@ -171,11 +188,11 @@ useEffect(() => {
             transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
             className="w-[90px] h-[90px] sm:w-[110px] sm:h-[110px] md:w-[130px] md:h-[130px] rounded-full bg-gradient-to-br from-[var(--brand-warm-amber)] to-[var(--brand-orange-red)] flex items-center justify-center mb-6 shadow-[0_0_60px_rgba(224,160,32,0.6)] animate-pulse-glow"
           >
-          <img
-  src={logoImage}
-  alt="Travel Paradise Logo"
-  className="w-full h-full object-contain rounded-full"
-/>
+            <img
+              src={logoImage}
+              alt="Travel Paradise Logo"
+              className="w-full h-full object-contain rounded-full"
+            />
           </motion.div>
 
           <motion.div
@@ -207,8 +224,10 @@ useEffect(() => {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="font-[var(--font-nunito)] text-sm sm:text-base md:text-lg text-white/80 mb-6 max-w-4xl px-4 leading-relaxed"
           >
-           The Travel Paradise is known for personalized and hassle-free travel experiences. 
-           <br></br><br></br> We turn every trip into a smooth and memorable journey.
+            The Travel Paradise is known for personalized and hassle-free travel
+            experiences.
+            <br></br>
+            <br></br> We turn every trip into a smooth and memorable journey.
           </motion.p>
 
           {/* Social Chips */}
@@ -225,7 +244,9 @@ useEffect(() => {
               className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#E1306C] text-white transition-all transform hover:scale-110 flex items-center gap-2"
             >
               <Instagram className="w-4 h-4" />
-              <span className="font-[var(--font-nunito)] text-[13px] font-[600]">Instagram</span>
+              <span className="font-[var(--font-nunito)] text-[13px] font-[600]">
+                Instagram
+              </span>
             </a>
             <a
               href="https://linkedin.com/in/the-travel-paradise-475a41360"
@@ -234,7 +255,9 @@ useEffect(() => {
               className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#0077B5] text-white transition-all transform hover:scale-110 flex items-center gap-2"
             >
               <Linkedin className="w-4 h-4" />
-              <span className="font-[var(--font-nunito)] text-[13px] font-[600]">LinkedIn</span>
+              <span className="font-[var(--font-nunito)] text-[13px] font-[600]">
+                LinkedIn
+              </span>
             </a>
             <a
               href="https://twitter.com/TravelPara56674"
@@ -243,7 +266,9 @@ useEffect(() => {
               className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-[#1DA1F2] text-white transition-all transform hover:scale-110 flex items-center gap-2"
             >
               <Twitter className="w-4 h-4" />
-              <span className="font-[var(--font-nunito)] text-[13px] font-[600]">X/Twitter</span>
+              <span className="font-[var(--font-nunito)] text-[13px] font-[600]">
+                X/Twitter
+              </span>
             </a>
           </motion.div>
 
@@ -270,25 +295,22 @@ useEffect(() => {
               Chat on WhatsApp
             </a>
           </motion.div>
-
-       
-
-       
         </div>
       </section>
 
-         {/* Banner 1 */}
-              <section className="w-full bg-white dark:bg-slate-950 py-6 md:py-8 transition-colors">
-                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="overflow-hidden rounded-3xl shadow-xl">
-                    <img
-                      src={banner1}
-                      alt="Travel Paradise Banner"
-                      className="w-full h-auto object-cover"
-                    />
-                  </div>
-                </div>
-              </section>
+      {/* Banner 1 */}
+      <section className="w-full bg-white dark:bg-slate-950 py-6 md:py-8 transition-colors">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="overflow-hidden rounded-3xl shadow-xl">
+            <img
+              src={banner1}
+              alt="Travel Paradise Banner"
+              loading="lazy"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Destinations Grid */}
       <section className="py-16 bg-white dark:bg-slate-950 transition-colors">
@@ -300,17 +322,105 @@ useEffect(() => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-         
-
             <h2 className="font-[var(--font-playfair)] font-[800] text-[36px] md:text-[44px] text-[var(--text-primary)] mb-4">
               Explore Our Destinations
             </h2>
             <p className="font-[var(--font-nunito)] text-[16px] text-[var(--text-secondary)] max-w-2xl mx-auto">
-              Discover handpicked destinations with carefully curated travel packages
+              Discover handpicked destinations with carefully curated travel
+              packages
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Mobile Only - Two Rows (Domestic & International) */}
+          <div className="md:hidden flex flex-col gap-8 pb-4">
+            <style>{`
+              .hide-scrollbar::-webkit-scrollbar {
+                display: none;
+              }
+              .hide-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+              }
+            `}</style>
+
+            {/* Domestic Row */}
+            {domesticDestinations.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <h3 className="font-[var(--font-playfair)] font-[800] text-[22px] text-[var(--text-primary)] px-4">
+                  Domestic
+                </h3>
+                <div className="overflow-x-auto -mx-4 px-4 snap-x flex gap-4 hide-scrollbar items-start">
+                  {domesticDestinations.map((dest: any, index: number) => (
+                    <motion.div
+                      key={dest.name}
+                      className="flex-shrink-0 w-[140px] snap-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05, duration: 0.4 }}
+                    >
+                      <Link
+                        to={`/packages?destination=${encodeURIComponent(dest.name)}`}
+                        className="group flex flex-col gap-2 w-full"
+                      >
+                        <div className="relative h-[180px] rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 shrink-0">
+                          <img
+                            src={dest.image}
+                            alt={dest.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                        </div>
+                        <h4 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] text-center leading-tight mt-1">
+                          {dest.name}
+                        </h4>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* International Row */}
+            {internationalDestinations.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <h3 className="font-[var(--font-playfair)] font-[800] text-[22px] text-[var(--text-primary)] px-4">
+                  International
+                </h3>
+                <div className="overflow-x-auto -mx-4 px-4 snap-x flex gap-4 hide-scrollbar items-start">
+                  {internationalDestinations.map((dest: any, index: number) => (
+                    <motion.div
+                      key={dest.name}
+                      className="flex-shrink-0 w-[140px] snap-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05, duration: 0.4 }}
+                    >
+                      <Link
+                        to={`/packages?destination=${encodeURIComponent(dest.name)}`}
+                        className="group flex flex-col gap-2 w-full"
+                      >
+                        <div className="relative h-[180px] rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-gray-800 shrink-0">
+                          <img
+                            src={dest.image}
+                            alt={dest.name}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                        </div>
+                        <h4 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] text-center leading-tight mt-1">
+                          {dest.name}
+                        </h4>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop + Tablet */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {destinationInfo.slice(0, 12).map((dest: any, index: number) => (
               <motion.div
                 key={dest.name}
@@ -321,22 +431,24 @@ useEffect(() => {
               >
                 <Link
                   to={`/packages?destination=${encodeURIComponent(dest.name)}`}
-                  className="group block relative h-[400px] rounded-2xl overflow-hidden card-3d"
+                  className="group block relative h-[400px] rounded-2xl overflow-hidden card-3d shadow-lg"
                 >
-                  <img
-                    src={packages.find(p => p.destination === dest.name)?.coverImage}
-                    alt={dest.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <div className="text-[48px] mb-2">{destinationEmojis[dest.name]}</div>
-                    <h3 className="font-[var(--font-playfair)] font-[800] text-[28px] mb-2">
+                  <div className="absolute inset-0">
+                    <img
+                      src={dest.image}
+                      alt={dest.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-full p-6 text-left transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                    <h3 className="font-[var(--font-playfair)] font-[800] text-[28px] text-white mb-2 drop-shadow-md">
                       {dest.name}
                     </h3>
-                    <p className="font-[var(--font-nunito)] text-[14px] text-white/80">
-                      {dest.count} {dest.count === 1 ? 'Package' : 'Packages'}
-                    </p>
+                    <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/20 backdrop-blur-md text-white font-[var(--font-nunito)] text-[14px] font-bold border border-white/30 hover:bg-white/30 transition-colors">
+                      Explore Packages <ArrowRight className="w-4 h-4" />
+                    </div>
                   </div>
                 </Link>
               </motion.div>
@@ -363,7 +475,169 @@ useEffect(() => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+          {/* Mobile Only - Two Rows for Featured Packages */}
+          <div className="md:hidden flex flex-col gap-8 pb-4">
+            {domesticFeatured.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <h3 className="font-[var(--font-playfair)] font-[800] text-[22px] text-[var(--text-primary)] px-4">
+                  Domestic Packages
+                </h3>
+                <div className="overflow-x-auto -mx-4 px-4 snap-x flex gap-6 hide-scrollbar items-stretch">
+                  {domesticFeatured.map((pkg: any, index: number) => (
+                    <motion.div
+                      key={pkg.id}
+                      className="flex-shrink-0 w-[280px] snap-center h-auto"
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05, duration: 0.4 }}
+                    >
+                      <Link
+                        to={`/packages/${pkg.id}`}
+                        className="group flex flex-col h-full bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                      >
+                        <div className="relative h-[200px] overflow-hidden shrink-0">
+                          <img
+                            src={
+                              pkg.coverImage ||
+                              pkg.images?.[0] ||
+                              pkg.image ||
+                              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+                            }
+                            alt={pkg.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                          <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
+                            {pkg.category}
+                          </div>
+                        </div>
+                        <div className="p-5 flex flex-col flex-grow">
+                          <h3 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors line-clamp-2">
+                            {pkg.title}
+                          </h3>
+                          <div className="flex-grow flex flex-col">
+                            <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)] mb-2 line-clamp-4 leading-relaxed">
+                              {pkg.shortDescription}
+                            </p>
+                            {pkg.shortDescription?.length > 120 && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setSelectedDescPkg(pkg);
+                                }}
+                                className="text-[var(--brand-orange-red)] text-[13px] font-[800] hover:underline mt-1 inline-flex items-center gap-1 transition-all"
+                              >
+                                Read More <ArrowRight className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+                          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-slate-800">
+                            <div>
+                              <span className="block font-[var(--font-nunito)] text-[11px] text-[var(--text-muted)]">
+                                Starting from
+                              </span>
+                              <span className="font-[var(--font-nunito)] font-[900] text-[18px] text-[var(--brand-orange-red)]">
+                                ₹
+                                {pkg.pricing?.standard?.toLocaleString(
+                                  "en-IN",
+                                ) || pkg.price?.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                            <span className="font-[var(--font-nunito)] text-[12px] text-[var(--text-secondary)] font-bold bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded-md">
+                              {pkg.duration}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {internationalFeatured.length > 0 && (
+              <div className="flex flex-col gap-3">
+                <h3 className="font-[var(--font-playfair)] font-[800] text-[22px] text-[var(--text-primary)] px-4">
+                  International Packages
+                </h3>
+                <div className="overflow-x-auto -mx-4 px-4 snap-x flex gap-6 hide-scrollbar items-stretch">
+                  {internationalFeatured.map((pkg: any, index: number) => (
+                    <motion.div
+                      key={pkg.id}
+                      className="flex-shrink-0 w-[280px] snap-center h-auto"
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05, duration: 0.4 }}
+                    >
+                      <Link
+                        to={`/packages/${pkg.id}`}
+                        className="group flex flex-col h-full bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                      >
+                        <div className="relative h-[200px] overflow-hidden shrink-0">
+                          <img
+                            src={
+                              pkg.coverImage ||
+                              pkg.images?.[0] ||
+                              pkg.image ||
+                              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+                            }
+                            alt={pkg.title}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                          <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
+                            {pkg.category}
+                          </div>
+                        </div>
+                        <div className="p-5 flex flex-col flex-grow">
+                          <h3 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors line-clamp-2">
+                            {pkg.title}
+                          </h3>
+                          <div className="flex-grow flex flex-col">
+                            <p className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)] mb-2 line-clamp-4 leading-relaxed">
+                              {pkg.shortDescription}
+                            </p>
+                            {pkg.shortDescription?.length > 120 && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setSelectedDescPkg(pkg);
+                                }}
+                                className="text-[var(--brand-orange-red)] text-[13px] font-[800] hover:underline mt-1 inline-flex items-center gap-1 transition-all"
+                              >
+                                Read More <ArrowRight className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+                          <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-slate-800">
+                            <div>
+                              <span className="block font-[var(--font-nunito)] text-[11px] text-[var(--text-muted)]">
+                                Starting from
+                              </span>
+                              <span className="font-[var(--font-nunito)] font-[900] text-[18px] text-[var(--brand-orange-red)]">
+                                ₹
+                                {pkg.pricing?.standard?.toLocaleString(
+                                  "en-IN",
+                                ) || pkg.price?.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                            <span className="font-[var(--font-nunito)] text-[12px] text-[var(--text-secondary)] font-bold bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded-md">
+                              {pkg.duration}
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop + Tablet */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             {featuredPackages.map((pkg, index) => (
               <motion.div
                 key={pkg.id}
@@ -374,43 +648,55 @@ useEffect(() => {
               >
                 <Link
                   to={`/packages/${pkg.id}`}
-                  className="group block bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all"
+                  className="group flex flex-col bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full"
                 >
-                 <div className="relative h-[240px] overflow-hidden">
-                <img
-                  src={
-  pkg.coverImage ||
-  pkg.images?.[0] ||
-  pkg.image ||
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
-}
-                  alt={pkg.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                  <div className="relative h-[240px] overflow-hidden shrink-0">
+                    <img
+                      src={
+                        pkg.coverImage ||
+                        pkg.images?.[0] ||
+                        pkg.image ||
+                        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+                      }
+                      alt={pkg.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                     <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                       {pkg.category}
                     </div>
                   </div>
-                  <div className="p-6 flex flex-col justify-between h-[320px]">
+                  <div className="p-6 flex flex-col flex-grow">
                     <h3 className="font-[var(--font-playfair)] font-[800] text-[20px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors">
                       {pkg.title}
                     </h3>
-                    <div className="flex-grow">
+                    <div className="flex-grow flex flex-col">
                       <p className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] mb-2 line-clamp-4 leading-6">
                         {pkg.shortDescription}
                       </p>
 
                       {pkg.shortDescription?.length > 120 && (
-                        <button className="text-orange-500 text-sm font-semibold hover:underline">
-                          Read More
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedDescPkg(pkg);
+                          }}
+                          className="text-[var(--brand-orange-red)] text-[14px] font-[800] hover:underline mt-1 inline-flex items-center gap-1 transition-all"
+                        >
+                          Read More <ArrowRight className="w-3 h-3" />
                         </button>
                       )}
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-auto pt-4">
                       <div>
-                        <span className="font-[var(--font-nunito)] text-[12px] text-[var(--text-muted)]">Starting from</span>
+                        <span className="font-[var(--font-nunito)] text-[12px] text-[var(--text-muted)]">
+                          Starting from
+                        </span>
                         <div className="font-[var(--font-nunito)] font-[900] text-[22px] text-[var(--brand-orange-red)]">
-                          ₹{pkg.pricing.standard.toLocaleString('en-IN')}
+                          ₹
+                          {pkg.pricing?.standard?.toLocaleString("en-IN") ||
+                            pkg.price?.toLocaleString("en-IN")}
                         </div>
                       </div>
                       <div className="text-right">
@@ -437,19 +723,19 @@ useEffect(() => {
         </div>
       </section>
 
-      
-                {/* Banner 2 */}
-                <section className="w-full bg-[var(--warm-section-bg)] py-6 md:py-8 transition-colors">
-                  <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="overflow-hidden rounded-3xl shadow-xl">
-                      <img
-                        src={banner2}
-                        alt="Travel Paradise Banner"
-                        className="w-full h-auto object-cover"
-                      />
-                    </div>
-                  </div>
-                </section>
+      {/* Banner 2 */}
+      <section className="w-full bg-[var(--warm-section-bg)] py-6 md:py-8 transition-colors">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="overflow-hidden rounded-3xl shadow-xl">
+            <img
+              src={banner2}
+              alt="Travel Paradise Banner"
+              loading="lazy"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
+      </section>
 
       {/* Why Choose Us */}
       <section className="py-16 bg-white dark:bg-slate-950 transition-colors">
@@ -461,7 +747,6 @@ useEffect(() => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-
             <h2 className="font-[var(--font-playfair)] font-[800] text-[36px] md:text-[44px] text-[var(--text-primary)] mb-4">
               Why Choose Us
             </h2>
@@ -492,50 +777,46 @@ useEffect(() => {
           </div>
         </div>
       </section>
-<div className="py-16 bg-[var(--warm-section-bg)]">
-  <h2 className="text-center text-3xl font-bold mb-12">
-    What Our Travelers Say
-  </h2>
+      <div className="py-16 bg-[var(--warm-section-bg)]">
+        <h2 className="text-center text-3xl font-bold mb-12">
+          What Our Travelers Say
+        </h2>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1200px] mx-auto">
-    
-    {reviews.map((review: any, index) => (
-      <div
-  key={index}
-  className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row md:h-[260px]"
->
-      
-        {/* LEFT IMAGE */}
-       <div className="w-full md:w-[42%] h-[220px] md:h-full">
-          <img
-            src={reviewImages[review.name]}
-            alt={review.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1200px] mx-auto">
+          {reviews.map((review: any, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row md:h-[260px]"
+            >
+              {/* LEFT IMAGE */}
+              <div className="w-full md:w-[42%] h-[220px] md:h-full">
+                <img
+                  src={reviewImages[review.name]}
+                  alt={review.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-        {/* RIGHT CONTENT */}
-        <div className="w-full md:w-[60%] p-5 flex flex-col justify-between">
-          
-          <div className="text-yellow-400 text-lg mb-2">
-            {"★".repeat(review.rating)}
-            {"☆".repeat(5 - review.rating)}
-          </div>
+              {/* RIGHT CONTENT */}
+              <div className="w-full md:w-[60%] p-5 flex flex-col justify-between">
+                <div className="text-yellow-400 text-lg mb-2">
+                  {"★".repeat(review.rating)}
+                  {"☆".repeat(5 - review.rating)}
+                </div>
 
-         <p className="text-gray-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-4 md:line-clamp-5">
-            {review.comment}
-          </p>
+                <p className="text-gray-600 dark:text-slate-300 text-sm leading-relaxed line-clamp-4 md:line-clamp-5">
+                  {review.comment}
+                </p>
 
-          <h4 className="font-bold text-gray-800 dark:text-slate-100">
-            {review.name}
-          </h4>
-
+                <h4 className="font-bold text-gray-800 dark:text-slate-100">
+                  {review.name}
+                </h4>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
-
-  </div>
-</div>
       {/* Final CTA */}
       <section className="py-16 bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)]">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -576,12 +857,68 @@ useEffect(() => {
           </motion.div>
         </div>
       </section>
- <Link
-  to="/contact"
-  className="fixed bottom-12 right-12 md:bottom-16 md:right-16 z-50 bg-orange-500 hover:bg-orange-600 text-white w-14 h-14 text-xl rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110"
->
-  📩
-</Link>
+      <Link
+        to="/contact"
+        className="fixed bottom-12 right-12 md:bottom-16 md:right-16 z-50 bg-orange-500 hover:bg-orange-600 text-white w-14 h-14 text-xl rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110"
+      >
+        📩
+      </Link>
+
+      {/* Description Modal */}
+      <AnimatePresence>
+        {selectedDescPkg && (
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/70 backdrop-blur-md"
+            onClick={() => setSelectedDescPkg(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-2xl w-full p-8 relative overflow-hidden border border-gray-100 dark:border-slate-700"
+            >
+              <button
+                onClick={() => setSelectedDescPkg(null)}
+                className="absolute top-5 right-5 p-2 rounded-full bg-gray-100/80 hover:bg-gray-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 transition-colors text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="flex flex-col gap-3 mb-6 pr-10">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded-full bg-orange-100 text-[var(--brand-orange-red)] dark:bg-orange-500/20 dark:text-orange-400 font-[var(--font-nunito)] font-[800] text-[12px] uppercase tracking-wider">
+                    {selectedDescPkg.category}
+                  </span>
+                </div>
+                <h3 className="font-[var(--font-playfair)] font-[900] text-[32px] text-gray-900 dark:text-white leading-tight">
+                  {selectedDescPkg.title}
+                </h3>
+              </div>
+              <div className="max-h-[60vh] overflow-y-auto pr-4 custom-scrollbar">
+                <p className="font-[var(--font-nunito)] text-[18px] text-gray-700 dark:text-gray-200 leading-[1.8] whitespace-pre-wrap font-medium">
+                  {selectedDescPkg.description ||
+                    selectedDescPkg.shortDescription}
+                </p>
+              </div>
+              <div className="mt-8 pt-6 border-t border-gray-100 dark:border-slate-800 flex justify-end gap-4">
+                <button
+                  onClick={() => setSelectedDescPkg(null)}
+                  className="px-6 py-3 rounded-full bg-gray-100 text-gray-700 dark:bg-slate-800 dark:text-gray-300 font-[var(--font-nunito)] font-[700] text-[15px] hover:bg-gray-200 dark:hover:bg-slate-700 transition-all"
+                >
+                  Close
+                </button>
+                <Link
+                  to={`/packages/${selectedDescPkg.id}`}
+                  className="px-6 py-3 rounded-full gradient-primary text-white font-[var(--font-nunito)] font-[700] text-[15px] shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                >
+                  View Full Package <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

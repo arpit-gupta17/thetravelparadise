@@ -1,30 +1,39 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Phone, Mail, MapPin, Clock, Instagram, Linkedin, Twitter, Send } from 'lucide-react';
-import { toast } from 'sonner';
-import { supabase } from '../../lib/supabase';
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { motion } from "motion/react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Instagram,
+  Linkedin,
+  Twitter,
+  Send,
+} from "lucide-react";
+import { toast } from "sonner";
+import { supabase } from "../../lib/supabase";
 
-const WHATSAPP_NUMBER = '919166284373';
+const WHATSAPP_NUMBER = "919166284373";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function Contact() {
   const [searchParams] = useSearchParams();
-  const packageName = searchParams.get('package');
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    subject: packageName ? `Enquiry about ${packageName}` : '',
-    message: packageName ? `I'm interested in the ${packageName} package. Please provide more details.` : '',
-  });
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const packageName = searchParams.get("package");
 
-  const { error } = await supabase
-    .from("contacts")
-    .insert([
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    subject: packageName ? `Enquiry about ${packageName}` : "",
+    message: packageName
+      ? `I'm interested in the ${packageName} package. Please provide more details.`
+      : "",
+  });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { error } = await supabase.from("contacts").insert([
       {
         name: formData.name,
         phone: formData.phone,
@@ -34,22 +43,24 @@ const handleSubmit = async (e: React.FormEvent) => {
       },
     ]);
 
-  if (error) {
-    console.error(error);
-    toast.error("Failed to send ❌");
-  } else {
-    toast.success("Enquiry sent ✅");
+    if (error) {
+      console.error(error);
+      toast.error("Failed to send ❌");
+    } else {
+      toast.success("Enquiry sent ✅");
 
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      subject: "",
-      message: "",
-    });
-  }
-};
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    }
+  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -57,9 +68,24 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/thetravelparadise.co', label: 'Instagram', color: '#E1306C' },
-    { icon: Linkedin, href: 'https://linkedin.com/in/the-travel-paradise-475a41360', label: 'LinkedIn', color: '#0077B5' },
-    { icon: Twitter, href: 'https://twitter.com/TravelPara56674', label: 'Twitter', color: '#1DA1F2' },
+    {
+      icon: Instagram,
+      href: "https://instagram.com/thetravelparadise.co",
+      label: "Instagram",
+      color: "#E1306C",
+    },
+    {
+      icon: Linkedin,
+      href: "https://linkedin.com/in/the-travel-paradise-475a41360",
+      label: "LinkedIn",
+      color: "#0077B5",
+    },
+    {
+      icon: Twitter,
+      href: "https://twitter.com/TravelPara56674",
+      label: "Twitter",
+      color: "#1DA1F2",
+    },
   ];
 
   return (
@@ -278,12 +304,18 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </h3>
                 <div className="space-y-3 font-[var(--font-nunito)] text-[14px]">
                   <div className="flex justify-between">
-                    <span className="text-[var(--text-secondary)]">Monday - Saturday</span>
-                    <span className="font-[700] text-[var(--text-primary)]">9 AM - 8 PM</span>
+                    <span className="text-[var(--text-secondary)]">
+                      Monday - Saturday
+                    </span>
+                    <span className="font-[700] text-[var(--text-primary)]">
+                      9 AM - 8 PM
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[var(--text-secondary)]">Sunday</span>
-                    <span className="font-[700] text-[var(--text-primary)]">10 AM - 6 PM</span>
+                    <span className="font-[700] text-[var(--text-primary)]">
+                      10 AM - 6 PM
+                    </span>
                   </div>
                 </div>
               </div>
@@ -304,7 +336,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                       style={{ backgroundColor: `${social.color}15` }}
                       aria-label={social.label}
                     >
-                      <social.icon className="w-5 h-5" style={{ color: social.color }} />
+                      <social.icon
+                        className="w-5 h-5"
+                        style={{ color: social.color }}
+                      />
                     </a>
                   ))}
                 </div>
@@ -322,7 +357,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   Kota, Rajasthan, India
                 </p>
                 <p className="font-[var(--font-nunito)] text-[13px] text-white/80">
-                  Kota: The Land of Chambal – Where Heritage Meets Education 
+                  Kota: The Land of Chambal – Where Heritage Meets Education
                 </p>
               </div>
             </motion.div>

@@ -1,4 +1,3 @@
-
 # dependencies
 node_modules
 
@@ -25,6 +24,6 @@ Thumbs.db
 # markdown (optional if sensitive)
 *.md
 
-
-
-frontend/public/video/hero.MP4
+# large video files
+public/video/hero.MP4
+public/video/hero.mp4

@@ -1,9 +1,16 @@
-import { motion } from 'motion/react';
-import { Phone, Mail, Instagram, Linkedin, Twitter, MapPin } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
-import { useState, useEffect } from 'react';
+import { motion } from "motion/react";
+import {
+  Phone,
+  Mail,
+  Instagram,
+  Linkedin,
+  Twitter,
+  MapPin,
+} from "lucide-react";
+import { supabase } from "../../lib/supabase";
+import { useState, useEffect } from "react";
 
-const WHATSAPP_NUMBER = '919166284373';
+const WHATSAPP_NUMBER = "919166284373";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function About() {
@@ -24,14 +31,16 @@ export function About() {
   }, []);
 
   const stats = [
-    { value: '1.5K+', label: 'Happy Travelers', icon: '😊' },
-    { value: packages.length.toString(), label: 'Travel Packages', icon: '🎒' },
+    { value: "1.5K+", label: "Happy Travelers", icon: "😊" },
+    { value: packages.length.toString(), label: "Travel Packages", icon: "🎒" },
     {
-      value: Array.from(new Set(packages.map(p => p.destination))).length.toString(),
-      label: 'Destinations',
-      icon: '🌍'
+      value: Array.from(
+        new Set(packages.map((p) => p.destination)),
+      ).length.toString(),
+      label: "Destinations",
+      icon: "🌍",
     },
-    { value: '4.9/5', label: 'Customer Rating', icon: '⭐' },
+    { value: "4.9/5", label: "Customer Rating", icon: "⭐" },
   ];
 
   return (
@@ -85,24 +94,38 @@ export function About() {
               </h2>
               <div className="space-y-4 font-[var(--font-nunito)] text-[16px] text-[var(--text-secondary)] leading-relaxed">
                 <p>
-                  Established in <strong className="text-[var(--brand-orange-red)]">2024</strong> in the heart of Kota, Rajasthan, 
-                  The Travel Paradise was born from a passion for creating unforgettable travel experiences. We are a premier 
-                  tour and travel company dedicated to making your journeys memorable, safe, and hassle-free.
+                  Established in{" "}
+                  <strong className="text-[var(--brand-orange-red)]">
+                    2024
+                  </strong>{" "}
+                  in the heart of Kota, Rajasthan, The Travel Paradise was born
+                  from a passion for creating unforgettable travel experiences.
+                  We are a premier tour and travel company dedicated to making
+                  your journeys memorable, safe, and hassle-free.
                 </p>
                 <p>
-                  Operating under the tagline <strong>"Your Journey Our Responsibility,"</strong> we take pride in curating 
-                  exceptional travel packages across India and Southeast Asia. From the vibrant beaches of Thailand to the 
-                  majestic forts of Rajasthan, from the spiritual shrines of Uttarakhand to the cultural richness of Vietnam, 
-                  we bring you closer to the world's most enchanting destinations.
+                  Operating under the tagline{" "}
+                  <strong>"Your Journey Our Responsibility,"</strong> we take
+                  pride in curating exceptional travel packages across India and
+                  Southeast Asia. From the vibrant beaches of Thailand to the
+                  majestic forts of Rajasthan, from the spiritual shrines of
+                  Uttarakhand to the cultural richness of Vietnam, we bring you
+                  closer to the world's most enchanting destinations.
                 </p>
                 <p>
-                  With over <strong className="text-[var(--brand-orange-red)]">1.5K+ happy travelers</strong> and counting, 
-                  we've built our reputation on trust, quality service, and personalized attention. Every package is designed 
-                  with care, ensuring you experience the best of each destination while enjoying comfort, safety, and value.
+                  With over{" "}
+                  <strong className="text-[var(--brand-orange-red)]">
+                    1.5K+ happy travelers
+                  </strong>{" "}
+                  and counting, we've built our reputation on trust, quality
+                  service, and personalized attention. Every package is designed
+                  with care, ensuring you experience the best of each
+                  destination while enjoying comfort, safety, and value.
                 </p>
                 <p>
-                  Whether you're seeking an international adventure, a domestic heritage tour, a romantic honeymoon escape, 
-                  or a sacred pilgrimage, we have the perfect journey waiting for you.
+                  Whether you're seeking an international adventure, a domestic
+                  heritage tour, a romantic honeymoon escape, or a sacred
+                  pilgrimage, we have the perfect journey waiting for you.
                 </p>
               </div>
             </motion.div>
@@ -183,8 +206,12 @@ export function About() {
                 className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white hover:bg-white/20 transition-all group"
               >
                 <Phone className="w-8 h-8 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                <div className="font-[var(--font-nunito)] font-[700] text-[16px] mb-1">Call Us</div>
-                <div className="font-[var(--font-nunito)] text-[14px] text-white/80">+91 9166284373</div>
+                <div className="font-[var(--font-nunito)] font-[700] text-[16px] mb-1">
+                  Call Us
+                </div>
+                <div className="font-[var(--font-nunito)] text-[14px] text-white/80">
+                  +91 9166284373
+                </div>
               </a>
 
               <a
@@ -192,7 +219,9 @@ export function About() {
                 className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white hover:bg-white/20 transition-all group"
               >
                 <Mail className="w-8 h-8 mx-auto mb-3 group-hover:scale-110 transition-transform" />
-                <div className="font-[var(--font-nunito)] font-[700] text-[16px] mb-1">Email Us</div>
+                <div className="font-[var(--font-nunito)] font-[700] text-[16px] mb-1">
+                  Email Us
+                </div>
                 <div className="font-[var(--font-nunito)] text-[13px] text-white/80 break-all">
                   thetravelparadise.info@gmail.com
                 </div>
@@ -200,8 +229,12 @@ export function About() {
 
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-white">
                 <MapPin className="w-8 h-8 mx-auto mb-3" />
-                <div className="font-[var(--font-nunito)] font-[700] text-[16px] mb-1">Visit Us</div>
-                <div className="font-[var(--font-nunito)] text-[14px] text-white/80">Kota, Rajasthan</div>
+                <div className="font-[var(--font-nunito)] font-[700] text-[16px] mb-1">
+                  Visit Us
+                </div>
+                <div className="font-[var(--font-nunito)] text-[14px] text-white/80">
+                  Kota, Rajasthan
+                </div>
               </div>
             </div>
 

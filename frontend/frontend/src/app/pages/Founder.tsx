@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { getFounderInfo } from '../data/founder';
-import { Mail, Linkedin, Instagram } from 'lucide-react';
-import { XIcon } from '../components/XIcon';
+import { useState, useEffect } from "react";
+import { motion } from "motion/react";
+import { getFounderInfo } from "../data/founder";
+import { Mail, Linkedin, Instagram } from "lucide-react";
+import { XIcon } from "../components/XIcon";
 import mehulPhoto from "../../assets/images/mehul.png";
 import arpitPhoto from "../../assets/images/arpit.png";
 import rohiniPhoto from "../../assets/images/rohini.png";
@@ -16,8 +16,8 @@ export function Founder() {
       setFounder(getFounderInfo());
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   return (
@@ -53,7 +53,7 @@ export function Founder() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Photo Section */}
             <div>
-              { true ? (
+              {true ? (
                 <motion.img
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -101,7 +101,7 @@ export function Founder() {
                 transition={{ delay: 0.6 }}
                 className="prose prose-lg max-w-none"
               >
-                {founder.about.split('\n\n').map((paragraph, index) => (
+                {founder.about.split("\n\n").map((paragraph, index) => (
                   <p
                     key={index}
                     className="text-[var(--text-secondary)] font-[var(--font-nunito)] leading-relaxed mb-4"
@@ -171,7 +171,6 @@ export function Founder() {
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-3xl shadow-xl p-6 transition-colors">
               <div className="grid md:grid-cols-[220px_1fr] gap-8 items-center">
-
                 <img
                   src={rohiniPhoto}
                   alt="Rohini Bharadwaj"
@@ -179,16 +178,20 @@ export function Founder() {
                 />
 
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">
-                    Rohini Bharadwaj
-                  </h3>
+                  <h3 className="text-2xl font-bold mb-2">Rohini Bharadwaj</h3>
 
                   <p className="text-[var(--brand-orange-red)] font-semibold mb-4">
                     Director of Operations & Business Development
                   </p>
 
                   <p className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed">
-                    Rohini Bharadwaj plays a vital role in managing daily operations and driving business growth. She oversees customer experience, supplier partnerships, package development, and team coordination. With strong leadership and organizational skills, she ensures that every traveler receives seamless service and unforgettable travel experiences.
+                    Rohini Bharadwaj plays a vital role in managing daily
+                    operations and driving business growth. She oversees
+                    customer experience, supplier partnerships, package
+                    development, and team coordination. With strong leadership
+                    and organizational skills, she ensures that every traveler
+                    receives seamless service and unforgettable travel
+                    experiences.
                   </p>
 
                   <div className="flex gap-5 mt-6 items-center">
@@ -218,14 +221,12 @@ export function Founder() {
                     </a>
                   </div>
                 </div>
-
               </div>
             </div>
 
             {/* Arpit */}
             <div className="bg-white dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-3xl shadow-xl p-6 transition-colors">
               <div className="grid md:grid-cols-[220px_1fr] gap-8 items-center">
-
                 <img
                   src={arpitPhoto}
                   alt="Arpit Gupta"
@@ -233,16 +234,19 @@ export function Founder() {
                 />
 
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">
-                    Arpit Gupta
-                  </h3>
+                  <h3 className="text-2xl font-bold mb-2">Arpit Gupta</h3>
 
                   <p className="text-[var(--brand-orange-red)] font-semibold mb-4">
                     Website Developer & Technology Manager
                   </p>
 
                   <p className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed">
-                    Arpit is responsible for designing, developing, and maintaining The Travel Paradise website. He ensures that the platform remains fast, secure, and user-friendly while implementing new features that enhance the customer experience. His technical expertise helps create a seamless online booking and browsing experience for travelers.
+                    Arpit is responsible for designing, developing, and
+                    maintaining The Travel Paradise website. He ensures that the
+                    platform remains fast, secure, and user-friendly while
+                    implementing new features that enhance the customer
+                    experience. His technical expertise helps create a seamless
+                    online booking and browsing experience for travelers.
                   </p>
 
                   <div className="flex gap-5 mt-6 items-center">
@@ -272,7 +276,6 @@ export function Founder() {
                     </a>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -348,7 +351,9 @@ export function Founder() {
               Our Mission
             </h3>
             <p className="text-[var(--text-secondary)] font-[var(--font-nunito)] leading-relaxed">
-              To make curated, hassle-free, and memorable travel experiences accessible to everyone through innovation and customer-first thinking.
+              To make curated, hassle-free, and memorable travel experiences
+              accessible to everyone through innovation and customer-first
+              thinking.
             </p>
           </motion.div>
 
@@ -365,7 +370,8 @@ export function Founder() {
               Our Vision
             </h3>
             <p className="text-[var(--text-secondary)] font-[var(--font-nunito)] leading-relaxed">
-              To build a brand that stands for trust, quality, and unforgettable experiences, redefining travel services for modern travelers.
+              To build a brand that stands for trust, quality, and unforgettable
+              experiences, redefining travel services for modern travelers.
             </p>
           </motion.div>
         </div>

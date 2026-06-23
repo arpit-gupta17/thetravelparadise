@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from '../../lib/supabase';
+import { supabase } from "../../lib/supabase";
 
 export function ProtectedRoute({ children }: { children: JSX.Element }) {
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export function ProtectedRoute({ children }: { children: JSX.Element }) {
 
   if (loading) return <div>Loading...</div>;
 
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/admin/login" replace />;
 
   return children;
 }

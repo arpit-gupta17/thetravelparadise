@@ -1,34 +1,57 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowLeft, Check, Phone } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { motion } from "motion/react";
+import { ArrowLeft, Check, Phone, ChevronDown } from "lucide-react";
+import { supabase } from "../../lib/supabase";
 
-const WHATSAPP_NUMBER = '919166284373';
+const WHATSAPP_NUMBER = "919166284373";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function PackageDetail() {
   const { id } = useParams<{ id: string }>();
   const [pkg, setPkg] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [expandedDays, setExpandedDays] = useState<number[]>([0]);
 
-useEffect(() => {
-  const fetchPackage = async () => {
-    const { data, error } = await supabase
-      .from("packages")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      console.error(error);
-    } else {
-      setPkg(data);
-    }
+  const toggleDay = (index: number) => {
+    setExpandedDays((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
+    );
   };
 
-  if (id) fetchPackage();
-}, [id]);
-  const [selectedTier, setSelectedTier] = useState<'standard' | 'deluxe' | 'premium'>('standard');
+  useEffect(() => {
+    const fetchPackage = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("packages")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error(error);
+      } else {
+        setPkg(data);
+      }
+      setLoading(false);
+    };
+
+    if (id) fetchPackage();
+  }, [id]);
+  const [selectedTier, setSelectedTier] = useState<
+    "standard" | "deluxe" | "premium"
+  >("standard");
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--page-bg)] gap-4">
+        <div className="w-12 h-12 border-4 border-gray-200 border-t-[var(--brand-orange-red)] rounded-full animate-spin"></div>
+        <p className="font-[var(--font-nunito)] text-gray-500 font-semibold animate-pulse">
+          Loading package...
+        </p>
+      </div>
+    );
+  }
 
   if (!pkg) {
     return (
@@ -51,13 +74,13 @@ useEffect(() => {
   }
 
   const tierLabels = {
-    standard: 'Standard',
-    deluxe: 'Deluxe',
-    premium: 'Premium',
+    standard: "Standard",
+    deluxe: "Deluxe",
+    premium: "Premium",
   };
 
   return (
-    <div className="min-h-screen bg-[var(--page-bg)]">
+    <div className="min-h-screen bg-[var(--page-bg)] pb-24 lg:pb-0">
       {/* Hero Image */}
       <section className="relative h-[420px] overflow-hidden">
         <img
@@ -104,6 +127,20 @@ useEffect(() => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Details */}
             <div className="lg:col-span-2 space-y-8">
+              {/* Overview / Description */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h2 className="font-[var(--font-playfair)] font-[800] text-[28px] text-[var(--text-primary)] mb-6">
+                  Overview
+                </h2>
+                <div className="font-[var(--font-nunito)] text-[16px] text-[var(--text-secondary)] leading-relaxed bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-[var(--card-border)] whitespace-pre-wrap">
+                  {pkg.description || pkg.shortDescription}
+                </div>
+              </motion.div>
+
               {/* Highlights */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -139,26 +176,85 @@ useEffect(() => {
                 <h2 className="font-[var(--font-playfair)] font-[800] text-[28px] text-[var(--text-primary)] mb-6">
                   Day-by-Day Itinerary
                 </h2>
-                <div className="space-y-6">
-                  {pkg.itinerary.map((day, index) => (
-                    <div key={index} className="flex gap-4">
-                      <div className="flex-shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] flex items-center justify-center shadow-lg">
-                          <span className="font-[var(--font-nunito)] font-[900] text-[18px] text-white">
-                            {day.day}
-                          </span>
-                        </div>
+                <div className="space-y-3">
+                  {pkg.itinerary.map((day: any, index: number) => {
+                    const isExpanded = expandedDays.includes(index);
+                    return (
+                      <div
+                        key={index}
+                        className={`border rounded-xl transition-colors overflow-hidden ${
+                          isExpanded
+                            ? "bg-[#f4fbf7] border-[#d1e8db] dark:bg-[#0f1f17] dark:border-[#1a3826]"
+                            : "bg-[#f8f9fa] border-gray-200 dark:bg-slate-800 dark:border-slate-700"
+                        }`}
+                      >
+                        {/* Day header bar */}
+                        <button
+                          onClick={() => toggleDay(index)}
+                          className="w-full flex items-center justify-between px-4 py-3 text-left focus:outline-none"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="px-3 py-1 rounded-full border border-gray-400 dark:border-gray-500 bg-white dark:bg-slate-900 flex items-center justify-center flex-shrink-0">
+                              <span className="font-[var(--font-nunito)] font-[800] text-[13px] text-[var(--text-primary)]">
+                                Day {day.day}
+                              </span>
+                            </div>
+                            <h3 className="font-[var(--font-nunito)] font-[700] text-[15px] text-[var(--text-primary)]">
+                              {day.title}
+                            </h3>
+                          </div>
+                          <ChevronDown
+                            className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                              isExpanded ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+
+                        {/* Description box */}
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            height: isExpanded ? "auto" : 0,
+                            opacity: isExpanded ? 1 : 0,
+                          }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-4 pb-4 pt-2">
+                            <div className="font-[var(--font-nunito)] text-[14px] text-[var(--text-secondary)] leading-relaxed">
+                              {day.description
+                                ?.split("\n")
+                                .map((line: string, i: number) => {
+                                  if (
+                                    line
+                                      .trim()
+                                      .toLowerCase()
+                                      .startsWith("note:")
+                                  ) {
+                                    return (
+                                      <p
+                                        key={i}
+                                        className="text-[#008a47] dark:text-[#2dd4bf] font-bold mt-4"
+                                      >
+                                        {line}
+                                      </p>
+                                    );
+                                  }
+                                  return (
+                                    <p
+                                      key={i}
+                                      className={line.trim() ? "mb-3" : ""}
+                                    >
+                                      {line}
+                                    </p>
+                                  );
+                                })}
+                            </div>
+                          </div>
+                        </motion.div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-[var(--font-nunito)] font-[800] text-[18px] text-[var(--text-primary)] mb-2">
-                          Day {day.day}: {day.title}
-                        </h3>
-                        <div className="font-[var(--font-nunito)] text-[15px] text-[var(--text-secondary)] leading-relaxed">
-                          {day.description}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
 
@@ -208,19 +304,21 @@ useEffect(() => {
                       SELECT TIER
                     </label>
                     <div className="grid grid-cols-3 gap-2">
-                      {(['standard', 'deluxe', 'premium'] as const).map((tier) => (
-                        <button
-                          key={tier}
-                          onClick={() => setSelectedTier(tier)}
-                          className={`py-3 rounded-lg font-[var(--font-nunito)] font-[700] text-[13px] transition-all ${
-                            selectedTier === tier
-                              ? 'bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] text-white shadow-md'
-                              : 'bg-gray-100 dark:bg-slate-800 text-[var(--text-secondary)] hover:bg-gray-200 dark:hover:bg-slate-700'
-                          }`}
-                        >
-                          {tierLabels[tier]}
-                        </button>
-                      ))}
+                      {(["standard", "deluxe", "premium"] as const).map(
+                        (tier) => (
+                          <button
+                            key={tier}
+                            onClick={() => setSelectedTier(tier)}
+                            className={`py-3 rounded-lg font-[var(--font-nunito)] font-[700] text-[13px] transition-all ${
+                              selectedTier === tier
+                                ? "bg-gradient-to-br from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] text-white shadow-md"
+                                : "bg-gray-100 dark:bg-slate-800 text-[var(--text-secondary)] hover:bg-gray-200 dark:hover:bg-slate-700"
+                            }`}
+                          >
+                            {tierLabels[tier]}
+                          </button>
+                        ),
+                      )}
                     </div>
                   </div>
 
@@ -231,7 +329,7 @@ useEffect(() => {
                         {tierLabels[selectedTier]} Package
                       </div>
                       <div className="font-[var(--font-nunito)] font-[900] text-[42px] text-[var(--brand-orange-red)] leading-none mb-1">
-                        ₹{pkg.pricing[selectedTier].toLocaleString('en-IN')}
+                        ₹{pkg.pricing[selectedTier].toLocaleString("en-IN")}
                       </div>
                       <div className="font-[var(--font-nunito)] text-[13px] text-[var(--text-muted)]">
                         {pkg.priceUnit}
@@ -249,7 +347,7 @@ useEffect(() => {
                     </Link>
                     <a
                       href={`${WHATSAPP_URL}?text=${encodeURIComponent(
-                        `Hi, I'm interested in ${pkg.title} (${tierLabels[selectedTier]} - ₹${pkg.pricing[selectedTier].toLocaleString('en-IN')})`
+                        `Hi, I'm interested in ${pkg.title} (${tierLabels[selectedTier]} - ₹${pkg.pricing[selectedTier].toLocaleString("en-IN")})`,
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -278,6 +376,29 @@ useEffect(() => {
           </div>
         </div>
       </section>
+
+      {/* Sticky Mobile Booking Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] p-4 z-40 flex items-center justify-between transition-colors">
+        <div>
+          <p className="font-[var(--font-nunito)] text-[12px] text-[var(--text-secondary)] mb-0.5">
+            {tierLabels[selectedTier]} Package
+          </p>
+          <div className="flex items-baseline gap-1">
+            <span className="font-[var(--font-nunito)] font-[900] text-[22px] text-[var(--brand-orange-red)] leading-none">
+              ₹{pkg.pricing[selectedTier].toLocaleString("en-IN")}
+            </span>
+            <span className="font-[var(--font-nunito)] text-[11px] text-[var(--text-muted)]">
+              {pkg.priceUnit}
+            </span>
+          </div>
+        </div>
+        <Link
+          to={`/contact?package=${encodeURIComponent(pkg.title)}`}
+          className="px-8 py-3.5 rounded-full gradient-primary text-white font-[var(--font-nunito)] font-[700] text-[15px] shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95"
+        >
+          Book Now
+        </Link>
+      </div>
     </div>
   );
 }

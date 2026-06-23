@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { Home, ArrowLeft } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Home, ArrowLeft } from "lucide-react";
 
 export function NotFound() {
   return (
@@ -12,7 +12,8 @@ export function NotFound() {
           Page Not Found
         </h1>
         <p className="font-[var(--font-nunito)] text-[18px] text-white/80 mb-8 max-w-md mx-auto">
-          Looks like you've wandered off the beaten path. Let's get you back on track!
+          Looks like you've wandered off the beaten path. Let's get you back on
+          track!
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link

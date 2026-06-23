@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Instagram, Linkedin, Menu, X, Sun, Moon } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
-import { useTheme } from "next-themes";
-import { XIcon } from "./XIcon";
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Instagram, Linkedin, Menu, X, Sun, Moon } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useTheme } from 'next-themes';
+import { XIcon } from './XIcon';
 import logoImage from "../../assets/images/logo.png";
 
-const WHATSAPP_NUMBER = "919166284373";
+const WHATSAPP_NUMBER = '919166284373';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function Navbar() {
@@ -15,27 +15,27 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Packages", path: "/packages" },
-    { name: "About Us", path: "/about" },
-    { name: "Contact", path: "/contact" },
+    { name: 'Home', path: '/' },
+    { name: 'Packages', path: '/packages' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   const socialLinks = [
     {
       icon: Instagram,
-      href: "https://instagram.com/thetravelparadise.co",
-      label: "Instagram",
+      href: 'https://instagram.com/thetravelparadise.co',
+      label: 'Instagram'
     },
     {
       icon: Linkedin,
-      href: "https://www.linkedin.com/in/the-travel-paradise-475a41360",
-      label: "LinkedIn",
+      href: 'https://www.linkedin.com/in/the-travel-paradise-475a41360',
+      label: 'LinkedIn'
     },
     {
       icon: XIcon,
-      href: "https://twitter.com/TravelPara56674",
-      label: "X (Twitter)",
+      href: 'https://twitter.com/TravelPara56674',
+      label: 'X (Twitter)'
     },
   ];
 
@@ -49,6 +49,7 @@ export function Navbar() {
       >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
+
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3">
               <img
@@ -70,14 +71,15 @@ export function Navbar() {
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-6">
+
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   className={`font-[var(--font-nunito)] font-[600] text-[15px] transition-all relative group ${
                     location.pathname === link.path
-                      ? "text-[var(--brand-orange-red)]"
-                      : "text-[var(--text-primary)] dark:text-slate-200 hover:text-[var(--brand-orange-red)] dark:hover:text-[var(--brand-orange-red)]"
+                      ? 'text-[var(--brand-orange-red)]'
+                      : 'text-[var(--text-primary)] dark:text-slate-200 hover:text-[var(--brand-orange-red)] dark:hover:text-[var(--brand-orange-red)]'
                   }`}
                 >
                   {link.name}
@@ -85,8 +87,8 @@ export function Navbar() {
                   <span
                     className={`absolute -bottom-1 left-0 h-[2px] bg-gradient-to-r from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] transition-all ${
                       location.pathname === link.path
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
+                        ? 'w-full'
+                        : 'w-0 group-hover:w-full'
                     }`}
                   />
                 </Link>
@@ -114,15 +116,11 @@ export function Navbar() {
 
               {/* Theme Toggle */}
               <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-[var(--text-secondary)] hover:text-[var(--brand-orange-red)] dark:text-slate-300 dark:hover:text-[var(--brand-orange-red)]"
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? (
-                  <Sun className="w-4 h-4" />
-                ) : (
-                  <Moon className="w-4 h-4" />
-                )}
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </button>
 
               <div className="w-[1px] h-8 bg-gray-300 dark:bg-slate-700" />
@@ -144,12 +142,12 @@ export function Navbar() {
               className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-all bg-gray-100 dark:bg-slate-800 text-[var(--text-primary)] dark:text-slate-200"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              {isMobileMenuOpen
+                ? <X className="w-5 h-5" />
+                : <Menu className="w-5 h-5" />
+              }
             </button>
+
           </div>
         </div>
       </motion.nav>
@@ -170,9 +168,9 @@ export function Navbar() {
 
             {/* Drawer */}
             <motion.div
-              initial={{ x: "100%" }}
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: "100%" }}
+              exit={{ x: '100%' }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-[400px] z-[70] lg:hidden bg-white dark:bg-slate-900 shadow-2xl flex flex-col"
             >
@@ -203,8 +201,8 @@ export function Navbar() {
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`block py-4 px-5 rounded-xl font-[var(--font-nunito)] font-[700] text-[18px] transition-all ${
                         location.pathname === link.path
-                          ? "bg-gradient-to-r from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] text-white shadow-md"
-                          : "bg-gray-50 hover:bg-gray-100 dark:bg-slate-800/50 dark:hover:bg-slate-800 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                          ? 'bg-gradient-to-r from-[var(--brand-orange-red)] to-[var(--brand-warm-amber)] text-white shadow-md'
+                          : 'bg-gray-50 hover:bg-gray-100 dark:bg-slate-800/50 dark:hover:bg-slate-800 text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                       }`}
                     >
                       {link.name}
@@ -229,19 +227,13 @@ export function Navbar() {
                 <div className="flex items-center justify-between">
                   {/* Theme Toggle */}
                   <button
-                    onClick={() =>
-                      setTheme(theme === "dark" ? "light" : "dark")
-                    }
+                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                     className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-gray-200 dark:border-slate-700 font-[var(--font-nunito)] font-[600] text-[14px] text-[var(--text-primary)] transition-all hover:bg-gray-50 dark:hover:bg-slate-700"
                   >
-                    {theme === "dark" ? (
-                      <>
-                        <Sun className="w-4 h-4 text-yellow-500" /> Light
-                      </>
+                    {theme === 'dark' ? (
+                      <><Sun className="w-4 h-4 text-yellow-500" /> Light</>
                     ) : (
-                      <>
-                        <Moon className="w-4 h-4 text-indigo-500" /> Dark
-                      </>
+                      <><Moon className="w-4 h-4 text-indigo-500" /> Dark</>
                     )}
                   </button>
 

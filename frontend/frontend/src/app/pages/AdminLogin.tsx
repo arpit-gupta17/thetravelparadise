@@ -1,33 +1,28 @@
-
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 //import { motion } from 'motion/react';
-import { Lock, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { Lock, User } from "lucide-react";
+import { Link } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
 
 export const AdminLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  
-  
- const handleLogin = async (e: React.FormEvent) => {
-  console.log("FORM SUBMITTED 🔥");
+  const handleLogin = async (e: React.FormEvent) => {
+    console.log("FORM SUBMITTED 🔥");
     e.preventDefault();
-    setError('');
+    setError("");
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password,
-
-      
     });
     console.log("DATA:", data);
-console.log("ERROR:", error);
+    console.log("ERROR:", error);
 
     if (error) {
       setError(error.message);
@@ -39,13 +34,13 @@ console.log("ERROR:", error);
         setError('Not authorized');
         return;
       }*/
-console.log("NAVIGATING NOW 🚀");
-navigate('/admin/dashboard');
-      navigate('/admin/dashboard');
+      console.log("NAVIGATING NOW 🚀");
+      navigate("/admin/dashboard");
+      navigate("/admin/dashboard");
     }
   };
 
-    /*
+  /*
     // Simple demo authentication - email: admin, password: admin123
     if (email === 'admin' && password === 'admin123') {
       localStorage.setItem('admin_authenticated', 'true');
@@ -66,8 +61,12 @@ navigate('/admin/dashboard');
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full mb-4">
             <Lock className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2 font-[var(--font-playfair)]">Admin Login</h1>
-          <p className="text-gray-600 dark:text-slate-400">Access the admin dashboard</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100 mb-2 font-[var(--font-playfair)]">
+            Admin Login
+          </h1>
+          <p className="text-gray-600 dark:text-slate-400">
+            Access the admin dashboard
+          </p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
@@ -119,10 +118,9 @@ navigate('/admin/dashboard');
           </button>
         </form>
 
-
         <div className="mt-4 text-center">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="text-orange-500 hover:text-orange-600 font-medium"
           >
             ← Back to Home

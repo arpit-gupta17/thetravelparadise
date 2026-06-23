@@ -5,23 +5,23 @@
   --brand-warm-amber: #e0a020;
   --brand-bright-cyan: #00d0e0;
   --brand-deep-cyan: #0099bb;
-  --brand-whatsapp-green: #25D366;
+  --brand-whatsapp-green: #25d366;
   --brand-whatsapp-dark: #128c7e;
-  
+
   /* Backgrounds */
   --page-bg: #fdf8f4;
   --card-border: #fde8dc;
   --warm-section-bg: #fff8f4;
   --light-blue-bg: #f0fbff;
-  
+
   /* Text Colors */
   --text-primary: #1a1a2e;
   --text-secondary: #6b7280;
   --text-muted: #9ca3af;
-  
+
   /* Typography */
-  --font-playfair: 'Playfair Display', serif;
-  --font-nunito: 'Nunito', sans-serif;
+  --font-playfair: "Playfair Display", serif;
+  --font-nunito: "Nunito", sans-serif;
 }
 
 .dark {
@@ -30,7 +30,7 @@
   --card-border: #1e293b;
   --warm-section-bg: #131926;
   --light-blue-bg: #0f172a;
-  
+
   /* Text Colors */
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -45,7 +45,12 @@ body {
 
 /* Custom gradient for hero headline */
 .gradient-text {
-  background: linear-gradient(90deg, var(--brand-warm-amber) 0%, var(--brand-orange-red) 40%, var(--brand-bright-cyan) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--brand-warm-amber) 0%,
+    var(--brand-orange-red) 40%,
+    var(--brand-bright-cyan) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -53,7 +58,11 @@ body {
 
 /* Primary gradient for buttons */
 .gradient-primary {
-  background: linear-gradient(135deg, var(--brand-orange-red) 0%, var(--brand-warm-amber) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--brand-orange-red) 0%,
+    var(--brand-warm-amber) 100%
+  );
 }
 
 /* Radial gradient utility */
@@ -63,7 +72,8 @@ body {
 
 /* Animations */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -72,7 +82,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(224, 160, 32, 0.5);
   }
   50% {
@@ -81,7 +92,8 @@ body {
 }
 
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -90,7 +102,8 @@ body {
 }
 
 @keyframes orb-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) scale(1);
   }
   33% {
