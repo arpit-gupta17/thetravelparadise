@@ -10,6 +10,7 @@ import {
   ArrowRight,
   X,
 } from "lucide-react";
+import { ShareButton } from "../components/ShareButton";
 //import { packages, getDestinationInfo } from '../data/packages';
 import logoImage from "../../assets/images/logo.png";
 import { usePackages } from "../contexts/PackageContext";
@@ -509,6 +510,16 @@ export function Home() {
                           <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                             {pkg.category}
                           </div>
+                          {/* Share Button */}
+                          <div className="absolute top-3 right-3 z-10">
+                            <ShareButton
+                              packageTitle={pkg.title}
+                              packageId={pkg.id}
+                              price={pkg.pricing?.standard}
+                              priceUnit={pkg.priceUnit}
+                              compact
+                            />
+                          </div>
                         </div>
                         <div className="p-5 flex flex-col flex-grow">
                           <h3 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors line-clamp-2">
@@ -588,6 +599,16 @@ export function Home() {
                           <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                             {pkg.category}
                           </div>
+                          {/* Share Button */}
+                          <div className="absolute top-3 right-3 z-10">
+                            <ShareButton
+                              packageTitle={pkg.title}
+                              packageId={pkg.id}
+                              price={pkg.pricing?.standard}
+                              priceUnit={pkg.priceUnit}
+                              compact
+                            />
+                          </div>
                         </div>
                         <div className="p-5 flex flex-col flex-grow">
                           <h3 className="font-[var(--font-playfair)] font-[800] text-[18px] text-[var(--text-primary)] mb-2 group-hover:text-[var(--brand-orange-red)] transition-colors line-clamp-2">
@@ -663,6 +684,16 @@ export function Home() {
                     />
                     <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                       {pkg.category}
+                    </div>
+                    {/* Share Button */}
+                    <div className="absolute top-3 right-3 z-10">
+                      <ShareButton
+                        packageTitle={pkg.title}
+                        packageId={pkg.id}
+                        price={pkg.pricing?.standard}
+                        priceUnit={pkg.priceUnit}
+                        compact
+                      />
                     </div>
                   </div>
                   <div className="p-6 flex flex-col flex-grow">

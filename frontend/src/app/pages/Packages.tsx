@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { ShareButton } from '../components/ShareButton';
 
 export function Packages() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -203,6 +204,16 @@ useEffect(() => {
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
                       <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[var(--brand-orange-red)] text-white font-[var(--font-nunito)] font-[700] text-[11px]">
                         {pkg.category}
+                      </div>
+                      {/* Share Button */}
+                      <div className="absolute top-3 right-3 z-10">
+                        <ShareButton
+                          packageTitle={pkg.title}
+                          packageId={pkg.id}
+                          price={pkg.pricing?.standard}
+                          priceUnit={pkg.priceUnit}
+                          compact
+                        />
                       </div>
                       <div className="absolute bottom-4 right-4 px-3 py-1.5 rounded-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-sm text-[var(--text-primary)] dark:text-slate-200 font-[var(--font-nunito)] font-[600] text-[12px]">
                         {pkg.destination}

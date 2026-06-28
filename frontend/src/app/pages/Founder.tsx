@@ -179,7 +179,7 @@ export function Founder() {
                 />
 
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">
+                  <h3 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">
                     Rohini Bharadwaj
                   </h3>
 
@@ -231,19 +231,18 @@ export function Founder() {
                   alt="Arpit Gupta"
                   className="rounded-2xl shadow-xl w-full max-w-[220px] object-cover aspect-[3/4]"
                 />
-
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">
-                    Arpit Gupta
-                  </h3>
+                 <h3 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">
+                  Arpit Gupta
+                </h3>
 
-                  <p className="text-[var(--brand-orange-red)] font-semibold mb-4">
-                    Website Developer & Technology Manager
-                  </p>
+                <p className="text-[var(--brand-orange-red)] font-semibold mb-4">
+                  Full-Stack Developer & Technology Consultant
+                </p>
 
-                  <p className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed">
-                    Arpit is responsible for designing, developing, and maintaining The Travel Paradise website. He ensures that the platform remains fast, secure, and user-friendly while implementing new features that enhance the customer experience. His technical expertise helps create a seamless online booking and browsing experience for travelers.
-                  </p>
+                <p className="text-sm text-gray-600 dark:text-slate-300 leading-relaxed">
+                  Arpit collaborated with The Travel Paradise to design and develop its modern digital platform. From creating a responsive user interface to implementing secure and scalable features, he focuses on delivering seamless web experiences. As an independent full-stack developer, he partners with businesses to build high-quality web applications tailored to their needs.
+                </p>
 
                   <div className="flex gap-5 mt-6 items-center">
                     <a

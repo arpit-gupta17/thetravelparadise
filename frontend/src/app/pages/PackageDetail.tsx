@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, Check, Phone, ChevronDown } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { ShareButton } from '../components/ShareButton';
 
 const WHATSAPP_NUMBER = '919166284373';
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -340,6 +341,15 @@ useEffect(() => {
                       <Phone className="w-5 h-5" />
                       Call Us
                     </a>
+                    {/* Share Button - full width */}
+                    <div className="flex justify-center pt-1">
+                      <ShareButton
+                        packageTitle={pkg.title}
+                        packageId={pkg.id}
+                        price={pkg.pricing?.[selectedTier]}
+                        priceUnit={pkg.priceUnit}
+                      />
+                    </div>
                   </div>
 
                   {/* Additional Info */}
@@ -356,8 +366,8 @@ useEffect(() => {
       </section>
 
       {/* Sticky Mobile Booking Bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] p-4 z-40 flex items-center justify-between transition-colors">
-        <div>
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 shadow-[0_-10px_30px_rgba(0,0,0,0.1)] p-4 z-40 flex items-center justify-between transition-colors gap-3">
+        <div className="flex-1 min-w-0">
           <p className="font-[var(--font-nunito)] text-[12px] text-[var(--text-secondary)] mb-0.5">
             {tierLabels[selectedTier]} Package
           </p>
@@ -370,12 +380,21 @@ useEffect(() => {
             </span>
           </div>
         </div>
-        <Link
-          to={`/contact?package=${encodeURIComponent(pkg.title)}`}
-          className="px-8 py-3.5 rounded-full gradient-primary text-white font-[var(--font-nunito)] font-[700] text-[15px] shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95"
-        >
-          Book Now
-        </Link>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <ShareButton
+            packageTitle={pkg.title}
+            packageId={pkg.id}
+            price={pkg.pricing?.[selectedTier]}
+            priceUnit={pkg.priceUnit}
+            compact
+          />
+          <Link
+            to={`/contact?package=${encodeURIComponent(pkg.title)}`}
+            className="px-6 py-3.5 rounded-full gradient-primary text-white font-[var(--font-nunito)] font-[700] text-[15px] shadow-lg hover:shadow-xl transition-all transform hover:scale-105 active:scale-95"
+          >
+            Book Now
+          </Link>
+        </div>
       </div>
     </div>
   );
