@@ -246,9 +246,7 @@ useEffect(() => {
                           <div className="font-[var(--font-nunito)] text-[13px] text-[var(--text-secondary)]">
                             {pkg.duration}
                           </div>
-                          <div className="font-[var(--font-nunito)] text-[12px] text-[var(--text-muted)]">
-                            {pkg.nights}N / {pkg.days}D
-                          </div>
+                         
                         </div>
                       </div>
                     </div>

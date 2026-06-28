@@ -55,7 +55,7 @@ export function Navbar() {
               <img
                 src={logoImage}
                 alt="The Travel Paradise Logo"
-                className="h-10 md:h-14 w-auto"
+                className="h-10 md:h-14 w-auto translate-y-1 md:translate-y-1.5"
               />
 
               <div className="flex flex-col leading-tight">
