@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { Share2, Link2, Check, Mail, MessageCircle } from 'lucide-react';
+import { Share2, Link2, Check, MessageCircle } from 'lucide-react';
 
 interface ShareButtonProps {
   packageTitle: string;
@@ -124,7 +124,7 @@ export function ShareButton({
   };
 
   const nativeShare = () => {
-    if (navigator.share) {
+    if (typeof navigator.share === "function") {
       navigator.share({ title: packageTitle, text: shareText, url: pageUrl })
         .then(() => setOpen(false))
         .catch(() => {});
@@ -137,14 +137,21 @@ export function ShareButton({
     setTimeout(() => setToast(null), 3500);
   };
 
-  const shareOptions: ShareOption[] = [
-    ...(navigator.share ? [{
-      label: 'Share via...',
-      icon: <Share2 className="w-4 h-4" />,
-      color: '#6366f1',
-      bgColor: '#eef2ff',
-      action: nativeShare,
-    }] : []),
+ const canShare =
+  typeof navigator !== "undefined" &&
+  "share" in navigator &&
+  typeof navigator.share === "function";
+
+const shareOptions: ShareOption[] = [
+  ...(canShare
+    ? [{
+        label: "Share via...",
+        icon: <Share2 className="w-4 h-4" />,
+        color: "#6366f1",
+        bgColor: "#eef2ff",
+        action: nativeShare,
+      }]
+    : []),
     {
       label: 'WhatsApp',
       icon: (
@@ -219,13 +226,7 @@ export function ShareButton({
       bgColor: '#FFFC00',
       action: () => { window.open(`https://www.snapchat.com/share?url=${encodedUrl}`, '_blank'); setOpen(false); },
     },
-    {
-      label: 'Email',
-      icon: <Mail className="w-4 h-4" />,
-      color: '#6366f1',
-      bgColor: '#eef2ff',
-      action: () => { window.open(`mailto:?subject=${encodedTitle}&body=${encodedText}`, '_blank'); setOpen(false); },
-    },
+
     {
       label: 'SMS',
       icon: <MessageCircle className="w-4 h-4" />,
